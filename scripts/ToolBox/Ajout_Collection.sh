@@ -143,7 +143,7 @@ do
 		cp $ES_SYSTEMS_PATH/es_systems.cfg $ES_SYSTEMS_PATH/es_systems.cfg.back
 		echo "Modification du $ES_SYSTEMS_PATH/es_systems.cfg en cours"
 		cd $COLLECTION_PATH/$COLLECTION_FOLDER
-		sed '/<systemList>/r "$ADD_NEW_ES_SYS"' $ES_SYSTEMS_PATH/es_systems.cfg > $COLLECTION_PATH/$COLLECTION_FOLDER/temp_$ADD_NEW_ES_SYS && cp temp_$ADD_NEW_ES_SYS $ES_SYSTEMS_PATH/es_systems.cfg
+		sed '/<systemList>/r '$ADD_NEW_ES_SYS'' $ES_SYSTEMS_PATH/es_systems.cfg > $COLLECTION_PATH/$COLLECTION_FOLDER/temp_$ADD_NEW_ES_SYS && cp temp_$ADD_NEW_ES_SYS $ES_SYSTEMS_PATH/es_systems.cfg
 		echo "Le fichier a bien été modifier"
 		ls -l $ES_SYSTEMS_PATH/es_systems.cfg
 		rm -f temp_$ADD_NEW_ES_SYS $ADD_NEW_ES_SYS
