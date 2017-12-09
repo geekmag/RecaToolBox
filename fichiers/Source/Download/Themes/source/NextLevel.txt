@@ -1,0 +1,9 @@
+AUTHOR="Gaetan"
+YOUTUBE=
+ARCH_THEME_NAME="NextLevel_v2.2.tar"
+THEME_FOLDER=""
+THEME_NAME="Next Level"
+TYPE_LINK="HTTP"
+DOWNLOAD_URL_THEME="geekmag78.free.fr/recalbox/themes/NextLevel_v2.2.tar"
+THEME_DESCRIPTION="Un thème couleur bleu à associer avec l'intro du même nom"
+ARCH_SIZE="52M"

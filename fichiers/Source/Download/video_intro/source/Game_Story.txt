@@ -1,0 +1,9 @@
+AUTHOR="Anna Cattish and Denis Pisarev"
+YOUTUBE=https://youtu.be/d3POvBNaa_M
+VIDEO_TITLE="Next Level"
+FTP_LOGIN=""
+FTP_PASSWORD=""
+TYPE_LINK="FTP"
+DOWNLOAD_URL_VIDEO="geekmag78.free.fr/recalbox/video_intro/Game_Story.mp4"
+PACK_DESCRIPTION="Une superbe vidéo d'animation parodiant les plus célèbres jeux vidéo"
+ARCH_SIZE="59M"

@@ -1,0 +1,7 @@
+AUTHOR="Gaetan_Yorfeddog"
+YOUTUBE=https://www.youtube.com/watch?v=pgloNBeRadw
+VIDEO_TITLE="Next Level"
+TYPE_LINK="HTTP"
+DOWNLOAD_URL_VIDEO="geekmag78.free.fr/recalbox/video_intro/NextLevel_Intro.mp4"
+PACK_DESCRIPTION="Cette vidéo enchaine des visuels des plus célèbres héro de jeux vidéo avec de jolie transition"
+ARCH_SIZE="59M"
