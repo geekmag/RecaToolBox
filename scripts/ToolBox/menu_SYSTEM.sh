@@ -4,9 +4,6 @@
 #Autheur: Eric (GeekMag.fr)
 #03/12/2017
 
-#Déclaration des variables
-TOOLBOX_PATH=/recalbox/scripts/geekmag_menu
-
 MOUNT_NAS()
 {
 echo "Version beta: cette option n'est pas encore active"

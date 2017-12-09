@@ -6,9 +6,7 @@
 
 
 #déclaration des variables
-GEEK_MENU=/recalbox/scripts/geekmag_menu
-TOOLBOX_PATH=/recalbox/scripts/geekmag_menu
-REP_SCRIPTS=/recalbox/scripts/geekmag_menu/scripts
+REP_SCRIPTS=$TOOLBOX_PATH/geekmag_menu/scripts
 CLOUD_PATH=http://geekmag78.free.fr/recalbox/recaltoobox/
 UPDATE_NAME=toolbox_update.tar
 UPDATE_DEPOT=package_update.tar
@@ -35,7 +33,7 @@ then
 		wget -N $CLOUD_PATH/$UPDATE_NAME
 
 		#Décompression de l'archive
-		tar -xf $UPDATE_NAME -C $GEEK_MENU
+		tar -xf $UPDATE_NAME -C $TOOLBOX_PATH
 		rm -f $DOWNLOAD_PATH/$UPDATE_NAME
 		echo "La Recalttobox a été mise à jour."
 fi

@@ -11,10 +11,10 @@ echo "Installation en cours..."
 mount -o remount,rw /
 
 #Chemin d'installation
-GEEK_MENU=/recalbox/scripts/geekmag_menu
+export TOOLBOX_PATH=/recalbox/scripts/geekmag_menu
 
 #Création du dossier qui stock les scripts
-mkdir $GEEK_MENU
+mkdir $TOOLBOX_PATH
 
 ################# Déclaration des variables ##############
 
@@ -22,27 +22,29 @@ mkdir $GEEK_MENU
 ARCH_NAME=RecaToolBox.tar
 
 #Décompression de l'archive
-tar -xf $ARCH_NAME -C $GEEK_MENU
+tar -xf $ARCH_NAME -C $TOOLBOX_PATH
 
-#Ajout des droits d'execution sur les fichiers
-$GEEK_MENU/scripts/SYSTEM/fic_droits.sh
-
-#Création de l'arborescence utilisateur
-$GEEK_MENU/scripts/ToolBox/make_arbo.sh
-
-#Modification des partages Samba
-$GEEK_MENU/scripts/SYSTEM/samba.sh
-
-#Création des alias pour lancer le menu
-$GEEK_MENU/scripts/SYSTEM/env.sh
+#Création des alias pour lancer le menu et les variables d'environnement
+$TOOLBOX_PATH/scripts/SYSTEM/env.sh
 
 source ~/.profile
+
+#Ajout des droits d'execution sur les fichiers
+$TOOLBOX_PATH/scripts/SYSTEM/fic_droits.sh
+
+#Création de l'arborescence utilisateur
+$TOOLBOX_PATH/scripts/ToolBox/make_arbo.sh
+
+#Modification des partages Samba
+$TOOLBOX_PATH/scripts/SYSTEM/samba.sh
+
+
 
 #nettoyage des fichiers d'installation
 #rm -f $PWD/$ARCH_NAME
 
 clear
-more $GEEK_MENU/fichiers/ASCII_Logo.txt
+more $TOOLBOX_PATH/fichiers/ASCII_Logo.txt
 echo ""
 echo ""
 echo "Bravo! Vous venez d'installer la RecalToolboox qui va vous aider à configurer Recalbox"

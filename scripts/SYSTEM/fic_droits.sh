@@ -5,20 +5,17 @@
 #21/11/2017
 ##########################################################
 
-#Chemin d'installation
-GEEK_MENU=/recalbox/scripts/geekmag_menu
-
-cd $GEEK_MENU/scripts/EmulationStation
+cd $TOOLBOX_PATH/scripts/EmulationStation
 
 chmod +x *.sh
 dos2unix *sh
 
-cd $GEEK_MENU/scripts/SYSTEM/
+cd $TOOLBOX_PATH/scripts/SYSTEM/
 
 chmod +x *.sh
 dos2unix *sh
 
-cd $GEEK_MENU/scripts/ToolBox/
+cd $TOOLBOX_PATH/scripts/ToolBox/
 
 chmod +x *.sh
 dos2unix *sh

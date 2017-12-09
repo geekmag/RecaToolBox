@@ -14,8 +14,6 @@ THEME_PATH=/recalbox/share/system/.emulationstation/themes
 #chemin vers répertoire téléchargement de la usertoolbox
 COLLECTION_PATH=/recalbox/share/RecaToolBox/Download/Collection
 COLLECTION_DL=$COLLECTION_PATH/source
-#Chemin vers la souche de la ToolBox
-TOOLBOX_PATH=/recalbox/scripts/geekmag_menu
 
 #chemin vers les roms
 ROM_PATH=/recalbox/share/roms

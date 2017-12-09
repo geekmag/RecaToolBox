@@ -6,7 +6,6 @@
 ##########################################################
 
 #Déclaration des variables
-GEEK_MENU=/recalbox/scripts/geekmag_menu
 TOOLBOX_USER=/recalbox/share/RecaToolBox
 SAMBA_CONF=/etc/samba/smb.conf
 
@@ -14,11 +13,11 @@ SAMBA_CONF=/etc/samba/smb.conf
 mount -o remount,rw /
 
 echo "Suppression des variables d'environnements"
-cat /dev/null > /recalbox/share/system/.profile
+cat /dev/null > ~/.profile
 unalias menu
 
 echo "suppresion des fichiers du menu"
-rm -rf $GEEK_MENU
+rm -rf $TOOLBOX_PATH
 echo "suppression des données utilisateur dans toolbox utilisateur"
 rm -rf $TOOLBOX_USER
 

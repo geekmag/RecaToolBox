@@ -9,8 +9,6 @@
 ROMS_REP=/recalbox/share/roms
 ROMS_PATH=/recalbox/share/RecaToolBox/Download/Roms
 ROMS_DL=$ROMS_PATH/source
-#Chemin vers la souche de la ToolBox
-TOOLBOX_PATH=/recalbox/scripts/geekmag_menu
 
 #Test l'espace libre sur le FS
 FREESPACE=$(df -h /recalbox/share | awk '{print $4}' | tail -n 1)
