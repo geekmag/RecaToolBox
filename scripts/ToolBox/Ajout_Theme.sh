@@ -9,8 +9,6 @@
 THEME_REP=/recalbox/share/system/.emulationstation/themes
 THEME_PATH=/recalbox/share/RecaToolBox/Download/Themes
 THEMES_DL=$THEME_PATH/source
-#Chemin vers la souche de la ToolBox
-TOOLBOX_PATH=/recalbox/scripts/geekmag_menu
 
 #Test l'espace libre sur le FS
 FREESPACE=$(df -h /recalbox/share | awk '{print $4}' | tail -n 1)

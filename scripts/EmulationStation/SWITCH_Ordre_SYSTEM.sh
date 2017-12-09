@@ -11,7 +11,7 @@ mount -o remount,rw /
 ES_SETTINGS_PATH=/recalbox/share_init/system/.emulationstation
 
 #Emplacement  des fichiers de configuration
-FIC_CONF_PATH=/recalbox/scripts/geekmag_menu
+FIC_CONF_PATH=$TOOLBOX_PATH
 
 
 ALPHABETIQUE()

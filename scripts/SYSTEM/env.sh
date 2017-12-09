@@ -7,11 +7,13 @@
 
 echo "Création des alias..."
 
+#Création des variables d'environnement
+echo "export TOOLBOX_PATH='$TOOLBOX_PATH'" >> ~/.profile
 
 #Création des alias
-echo "alias menu=/recalbox/scripts/geekmag_menu/scripts/menu.sh" >> /recalbox/share/system/.profile
-echo "alias ll='ls -lrt'" >> /recalbox/share/system/.profile
-echo "alias toolbox='cd /recalbox/share/RecaToolBox'" >> /recalbox/share/system/.profile
+echo "alias menu=$TOOLBOX_PATH/scripts/menu.sh" >> ~/.profile
+echo "alias ll='ls -lrt'" >> ~/.profile
+echo "alias toolbox='cd /recalbox/share/RecaToolBox'" >> ~/.profile
 
-#Rechargement variable environnement
-. /recalbox/share/system/.profile
+#Rechargement variables environnement
+source ~/.profile

@@ -10,7 +10,6 @@ DOWNLOAD_PATH=/recalbox/share/extractions
 VIDEO_INTRO_PATH=/recalbox/share/RecaToolBox/Download/video_intro
 VIDEO_INTRO_DL=$VIDEO_INTRO_PATH/source
 SPLASH_PATH=/recalbox/system/resources/splash
-TOOLBOX_PATH=/recalbox/scripts/geekmag_menu
 
 #Test l'espace libre sur le FS
 FREESPACE=$(df -h /recalbox/share | awk '{print $4}' | tail -n 1)

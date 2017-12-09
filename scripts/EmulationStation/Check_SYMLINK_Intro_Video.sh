@@ -7,9 +7,6 @@
 #passe la partition en écriture
 mount -o remount,rw /
 
-#Chemin vers la Toolbox
-TOOLBOX_PATH=/recalbox/scripts/geekmag_menu
-
 SPLASH_PATH=/recalbox/system/resources/splash
 cd $SPLASH_PATH
 

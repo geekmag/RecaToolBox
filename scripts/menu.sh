@@ -5,7 +5,7 @@
 # RDV sur geekmag.fr/recalbox/ pour la version mise à jour
 #19/11/2017
 
-REP_SCRIPTS=/recalbox/scripts/geekmag_menu/scripts
+REP_SCRIPTS=$TOOLBOX_PATH/scripts
 trap "echo ' Control+C ne doit pas être utilisé! Pour quitter appuyez sur Q' ; sleep 5 ; clear ; continue " 1 2 3
 
 #=========================================================================

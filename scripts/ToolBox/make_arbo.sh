@@ -5,13 +5,12 @@
 
 TOOLBOX_USER=/recalbox/share/RecaToolBox
 VIDEO_INTRO_PATH=$TOOLBOX_USER/Download/video_intro
-GEEK_MENU=/recalbox/scripts/geekmag_menu
 
 #Décompression du répertoire RecalToolbox utilisateur
 echo "Création du dossier RecaToolBox"
 mkdir $TOOLBOX_USER
 
-tar xf $GEEK_MENU/fichiers/Source/RecaToolBox_user.tar -C $TOOLBOX_USER
+tar xf $TOOLBOX_PATH/fichiers/Source/RecaToolBox_user.tar -C $TOOLBOX_USER
 
 
 

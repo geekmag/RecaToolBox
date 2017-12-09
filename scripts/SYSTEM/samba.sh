@@ -5,8 +5,7 @@
 
 #Déclaration des variables
 SAMBA_CONF=/etc/samba/smb.conf
-GEEK_MENU=/recalbox/scripts/geekmag_menu
-SMB_NEW_SHARE=$GEEK_MENU/fichiers/conf/smb_new_share.conf
+SMB_NEW_SHARE=$TOOLBOX_PATH/fichiers/conf/smb_new_share.conf
 
 echo "Sauvegarde du fichier de conf Samba"
 cp -p $SAMBA_CONF $SAMBA_CONF.original
