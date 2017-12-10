@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 ##############################
 # Menu mise à jour
 # Geekmag.fr
@@ -9,6 +9,9 @@
 CLOUD_PATH=http://geekmag78.free.fr/recalbox/recaltoobox/
 UPDATE_NAME=toolbox_update.tar
 UPDATE_DEPOT=package_update.tar
+
+REPOSITORY_PATH=$TOOLBOX_DOWNLOAD_PATH/Repository
+REPOSITORY_DL=$REPOSITORY_PATH/source
 
 #Test l'espace libre sur le FS
 FREESPACE=$(df -h /recalbox/share | awk '{print $4}' | tail -n 1)
@@ -36,11 +39,112 @@ fi
 }
 ############### Fin menu téléchargement MAJ RecalToolbox #################
 
+UPDATE_REPOSITORY() {
+
+    echo "Debut du traitement du repository $REPO_NAME"
+
+    if [ -z $REPO_PREFIX ]; then
+        echo "Le préfixe est obligatoire, merci de corriger le fichier desciptif du repository ($filename)"
+        return 3
+    fi
+
+    #On supprime les metadonnées sauvegardées du repo
+    if [ -d $REPOSITORY_PATH/$REPO_PREFIX ]; then
+        rm -R $REPOSITORY_PATH/$REPO_PREFIX
+    fi
+
+    #On recrée le répertoire
+    mkdir $REPOSITORY_PATH/$REPO_PREFIX
+    mkdir $REPOSITORY_PATH/$REPO_PREFIX/working
+    cd $REPOSITORY_PATH/$REPO_PREFIX
+
+    echo "On récupère le catalogue à l'url suivante: $REPO_BASE_URL/$REPO_CATALOG_URL"
+    wget $REPO_BASE_URL/$REPO_CATALOG_URL
+
+    # On vérifie la bonne exécution via la présence du fichier. On sort si erreur
+    if [ ! -f $REPOSITORY_PATH/$REPO_PREFIX/$REPO_CATALOG_URL ]; then
+        echo "Le fichier $REPO_CATALOG_URL n'a pas pu être téléchargé correctement."
+        return 3
+    fi
+    #On parcourt ensuite le fichier de catalog pour avoir toutes les URLS
+    dos2unix $REPOSITORY_PATH/$REPO_PREFIX/$REPO_CATALOG_URL
+    while read ligne
+    do
+        set $(echo $ligne)
+        ENTRY_TYPE=$(eval echo $1)
+        ENTRY_URL=$(eval echo $2)
+        echo "Nouvel élément du catalogue disponible à l url: $ENTRY_URL / Type: $ENTRY_TYPE"
+        cd $REPOSITORY_PATH/$REPO_PREFIX/working
+        wget $ENTRY_URL
+        WGET_RESULT=$?
+        echo "Wget est sorti avec le code $WGET_RESULT"
+        if [[ $WGET_RESULT != 0 ]]
+        then
+            echo "Téléchargement en erreur, on passe au fichier suivant"
+            continue
+        fi;
+
+        OUTPUT_PATH=""
+        echo "Juste avant le test, ENTRY_TYPE vaut $ENTRY_TYPE"
+        if [[ "$ENTRY_TYPE" == "ROMS" ]]
+        then
+            OUTPUT_PATH=$TOOLBOX_DOWNLOAD_PATH/Roms/source/$REPO_PREFIX
+        elif [[ "$ENTRY_TYPE" == "THEMES" ]]
+        then
+            OUTPUT_PATH=$TOOLBOX_DOWNLOAD_PATH/Themes/source/$REPO_PREFIX
+        elif [[ "$ENTRY_TYPE" == "VIDEOS" ]]
+        then
+            OUTPUT_PATH=$TOOLBOX_DOWNLOAD_PATH/video_intro/source/$REPO_PREFIX
+        else
+            echo "Type de fichier non géré"
+            rm $REPOSITORY_PATH/$REPO_PREFIX/working/*
+            continue
+        fi
+        for catalogEntryTar in *.tar
+        do
+            echo "Fichier tar à traiter: $catalogEntryTar"
+            echo "OutputPath: $OUTPUT_PATH"
+            if [[ ! -d $OUTPUT_PATH ]]; then
+                mkdir $OUTPUT_PATH
+            fi
+            tar xvf $catalogEntryTar -C $OUTPUT_PATH
+            rm $catalogEntryTar
+        done
+#        for catalogEntryTxt in *.txt
+#        do
+#            echo "Fichier tar à traiter: $catalogEntryTxt"
+#        done
+    done < $REPOSITORY_PATH/$REPO_PREFIX/$REPO_CATALOG_URL
+
+    echo "Fin du traitement du repository $REPO_NAME"
+
+}
+
+
 ############### Menu pour télécharger de nouvelles sources #################
 # Le téléchargement se fait en regardant les dépots disponible dans le fichier repository.txt
-
 MAJ_SOURCE_DL()
 {
+
+#on se place dans le dossier contenant la liste des repositories
+cd $REPOSITORY_DL
+#Pour éviter les problèmes de caractères
+dos2unix $REPOSITORY_DL/*.txt
+
+for filename in *.txt
+do
+    echo "Traitement du fichier $filename"
+    # On charge la configuration du repository
+    source $REPOSITORY_DL/$filename
+
+    echo "Repository $REPO_NAME identifié"
+
+    echo "On attaque son traitement"
+    UPDATE_REPOSITORY
+
+done
+return 1
+
 		cd $TOOLBOX_DOWNLOAD_PATH
 
 while read ligne

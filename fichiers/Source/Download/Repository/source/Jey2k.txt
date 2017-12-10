@@ -1,0 +1,5 @@
+REPO_NAME="Jey2k"
+REPO_DESCRIPTION="Repository de Jey2k"
+REPO_BASE_URL="http://recalbox.jey2k.fr"
+REPO_CATALOG_URL="catalog.txt"
+REPO_PREFIX="jey2k"

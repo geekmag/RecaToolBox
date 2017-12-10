@@ -27,13 +27,13 @@ DOWNLOAD_THEMES()
 #on se place dans le dossier contenant la liste des fichiers txt contenant les info relatives au téléchargement
 cd $THEMES_DL
 #Pour éviter les problèmes de caractères
-dos2unix $THEMES_DL/*.txt
+dos2unix $THEMES_DL/*/*.txt
 
 # invite de commande pour choisir l'option du select
 PS3="Entrez le numéro correspondant à nom du thème que vous voulez télécharger ou tapez 'retour' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir un pack de ROMS en générant une liste de tous les fichiers .txt contenant les URL de téléchargement
-select filename in *.txt
+select filename in */*.txt
 do
     # quitte la boucle si l'utilisater met 'retour'
     if [[ "$REPLY" == retour ]]; then break; fi
@@ -46,11 +46,20 @@ do
     fi
 
     # maintenant on peut travailler sur le fichier txt sélectionné contenant les info sur l'archive à télécharger
-	# le nom de fichier est récupéré en variable
+	# le nom de fichier est récupéré en variable après split
+
+	FILE_BASENAME=${filename##*/}
+	FILE_PATH=${filename%/*}
+
 	# On charge les variables du fichier externe
 	source  $THEMES_DL/$filename
+	# On crée le répertoire de téléchargement s'il n'existe pas déjà
+	if [[ ! -d $THEME_PATH/$FILE_PATH ]]
+	then
+	    mkdir $THEME_PATH/$FILE_PATH
+	fi
 	# On se place dans le répertoire de téléchargement
-	cd $THEME_PATH
+	cd $THEME_PATH/$FILE_PATH
 	# On affiche l'interface utilisateur
 	echo "Vous allez télécharger le thème: $THEME_NAME" 
 	echo "Ce thème est proposé par:" $AUTHOR
@@ -110,8 +119,10 @@ cd $THEMES_DL
 
 #On génère une liste des thèmes qui ont déjà été téléchargés
 AVAILABLE_THEMES=()
-for filename in *.txt
+for filename in */*.txt
 do
+    FILE_BASENAME=${filename##*/}
+	FILE_PATH=${filename%/*}
     source $THEMES_DL/$filename
     # Ici la variable ARCH_THEME_NAME devrait être complétée avec le nom de l'archive à utiliser
     # Si elle ne l'est pas, on sort
@@ -119,7 +130,7 @@ do
         continue
     fi
     # On teste la présence de l'archive
-    if [ -f $THEME_PATH/$ARCH_THEME_NAME ]; then
+    if [ -f $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME ]; then
         AVAILABLE_THEMES+=("$filename")
     fi
 done
@@ -139,21 +150,22 @@ do
         echo "'$REPLY' n'est pas un numéro valide"
         continue
     fi
-
+    FILE_BASENAME=${filename##*/}
+	FILE_PATH=${filename%/*}
 	# On charge les variables du fichier externe
 	source  $THEMES_DL/$filename
-    # maintenant on peut travailler sur le fichier d'archive en utilsiant le fichier de conf
+    # maintenant on peut travailler sur le fichier d'archive en utilisant le fichier de conf
 	echo "Décompression de l'archive $ARCH_THEME_NAME"
-	ls -lh $THEME_PATH/$ARCH_THEME_NAME
+	ls -lh $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME
 	echo "Description du pack $PACK_NAME en cours de copie"
 	echo $THEME_DESCRIPTION
 
     # Si le répertoire de destination est fourni dans le fichier de configuration, on l'utilise
     # dans le cas contraire, on utlise le path par défaut
     if [ -n "$THEME_FOLDER" ]; then
-        tar xvf $THEME_PATH/$ARCH_THEME_NAME -C $THEME_FOLDER
+        tar xvf $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME -C $THEME_FOLDER
     else
-        tar xvf $THEME_PATH/$ARCH_THEME_NAME -C $THEME_REP
+        tar xvf $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME -C $THEME_REP
     fi
 	echo "Le thème a été installé: allez dans l'interface EmulationStation pour le sélectionner"
 	
