@@ -5,9 +5,8 @@
 #Build 02/12/2017
 
 
-#déclaration des variables 
-DOWNLOAD_PATH=/recalbox/share/extractions
-VIDEO_INTRO_PATH=/recalbox/share/RecaToolBox/Download/video_intro
+#déclaration des variables
+VIDEO_INTRO_PATH=$TOOLBOX_DOWNLOAD_PATH/video_intro
 VIDEO_INTRO_DL=$VIDEO_INTRO_PATH/source
 SPLASH_PATH=/recalbox/system/resources/splash
 

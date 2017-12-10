@@ -7,7 +7,7 @@
 
 #chemin vers répertoire téléchargement de la usertoolbox
 BIOS_REP=/recalbox/share/bios
-BIOS_PATH=/recalbox/share/RecaToolBox/Download/Bios
+BIOS_PATH=$TOOLBOX_DOWNLOAD_PATH/Bios
 BIOS_DL=$BIOS_PATH/source
 
 #Test l'espace libre sur le FS

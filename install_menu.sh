@@ -11,9 +11,12 @@ echo "Installation en cours..."
 mount -o remount,rw /
 
 #Chemin d'installation
-export TOOLBOX_PATH=/recalbox/scripts/geekmag_menu
+export TOOLBOX_HOME=/recalbox/share/RecaToolBox
+export TOOLBOX_PATH=$TOOLBOX_HOME/ToolBox
+export TOOLBOX_DOWNLOAD_PATH=$TOOLBOX_HOME/Download
 
 #Création du dossier qui stock les scripts
+mkdir $TOOLBOX_HOME
 mkdir $TOOLBOX_PATH
 
 ################# Déclaration des variables ##############

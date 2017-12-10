@@ -7,7 +7,7 @@
 
 #chemin vers répertoire téléchargement de la usertoolbox
 THEME_REP=/recalbox/share/system/.emulationstation/themes
-THEME_PATH=/recalbox/share/RecaToolBox/Download/Themes
+THEME_PATH=$TOOLBOX_DOWNLOAD_PATH/Themes
 THEMES_DL=$THEME_PATH/source
 
 #Test l'espace libre sur le FS

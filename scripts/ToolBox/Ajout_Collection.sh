@@ -12,7 +12,7 @@ ES_SYSTEMS_PATH=/recalbox/share_init/system/.emulationstation
 #chemin vers les thèmes
 THEME_PATH=/recalbox/share/system/.emulationstation/themes
 #chemin vers répertoire téléchargement de la usertoolbox
-COLLECTION_PATH=/recalbox/share/RecaToolBox/Download/Collection
+COLLECTION_PATH=$TOOLBOX_DOWNLOAD_PATH/Collection
 COLLECTION_DL=$COLLECTION_PATH/source
 
 #chemin vers les roms

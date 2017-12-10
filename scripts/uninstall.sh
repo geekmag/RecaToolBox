@@ -6,7 +6,9 @@
 ##########################################################
 
 #Déclaration des variables
-TOOLBOX_USER=/recalbox/share/RecaToolBox
+if [ -z $TOOLBOX_HOME]; then
+    export TOOLBOX_HOME=/recalbox/share/RecaToolBox
+fi
 SAMBA_CONF=/etc/samba/smb.conf
 
 #Passer le FS est écriture
@@ -19,7 +21,7 @@ unalias menu
 echo "suppresion des fichiers du menu"
 rm -rf $TOOLBOX_PATH
 echo "suppression des données utilisateur dans toolbox utilisateur"
-rm -rf $TOOLBOX_USER
+rm -rf $TOOLBOX_HOME
 
 echo "Arrêt du service Samba"
 /etc/init.d/S91smb stop
