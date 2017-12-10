@@ -1,0 +1,43 @@
+Changelog de la RecalToolbox
+
+Build du 10/12 
+Jérémy alias Jey2k rejoint le projet et fournit un énorme taf de relecture du code:
+- nettoyage du code et optmisation des variables
+- création de son propre dépot et ajout de 7 thèmes + gestion compatibilité format avec PINN
+- ajout de contrôle pour les fonctions d'installation de thème et ROMS poru n'afficher dans le menu installation que ceux ayant vraiment été téléchargé)
+- révision complète de l'arborescence
+
+Eric: ajout documentation:
+- création du wiki
+- ajout de fichier lisez moi dans les arbo Download pour expliquer le format des fichiers téléchargement
+
+Build du 09/12 - Release beta public
+Mise à disposition des sources sur Github (23 scripts shell)
+https://github.com/geekmag/RecaToolBox
++ Version contenant des dépots sur GeekMag.fr/recaltoolbox
+
+__________________________________________________________________________
+
+v0.5 - 29/11/2017
+Ajout d'un menu pour configurer moonlight (Steam)
+Ajout d'options pour mettre à jour la ToolBox depuis le menu
+Suppression de toutes les URL codées en dur dans les scripts et passage en variable externe
+
+V 0.4 - 22/11/2017
+Ajout option pour générer une liste des jeux présent dans RecalToolbox
+
+V 0.3 - 21/11/2017
+Création d'un script d'installation automatique de la RecalToolbox
++ mise en place variable environnement pour lancer l'interface en tapant menu
+
+V 0.2 - 20/11/2017
+Ajout du menu personnalisation
+ - permet de trier les systèmes console par ordre logique ou alphabétique
+ - Télécharger des thèmes
+ - Installer une collection de jeux (télécharge un pack de ROM + modif du fichier ES SYSTEM)
+ - Changer la video d'intro (splashscreen de démarrage)
+
+V 0.1 - 19/11/2017
+Création du Menu principal
+Script téléchargement ROM
+Script téléchargement theme
