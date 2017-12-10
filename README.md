@@ -6,9 +6,12 @@ Cela permet également de télécharger des éléments tel que des thèmes et vi
 
 - Configurer Moonlight (stream jeux PC / Steam)
 - télécharger / modifier la vidéo d'intro
-- télécharger des packs de roms
-- télécharger tous les BIOS
 - télécharger des thèmes
 - générer une liste de vos jeux
 - modifier l'ordre d'affichage des consoles
 - ajouter une collection de jeux sur l'écran d'accueuil
+
+Si des dépots ont été ajoutés, la RecaToolBox est également capable de télécharger directement des BIOS et des packs de ROMS
+
+Plus d'info sur le WIKI:
+https://github.com/geekmag/RecaToolBox/wiki
