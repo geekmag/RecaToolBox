@@ -52,4 +52,7 @@ echo ""
 echo ""
 echo "Bravo! Vous venez d'installer la RecalToolboox qui va vous aider à configurer Recalbox"
 echo "Tapez menu pour lancer la configuration et validez par entrée"
+echo ""
+echo "Lors de la première utilisation, il est conseillé d'aller dans le menu:"
+echo "Informations et Mise à jour puis faire mettre à jour la source des téléchargement"
 
