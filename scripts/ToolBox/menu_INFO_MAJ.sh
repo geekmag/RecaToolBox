@@ -34,21 +34,34 @@ then
 		echo "La Recalttobox a été mise à jour."
 fi
 }
-############### Fin menu téléchargement video #################
+############### Fin menu téléchargement MAJ RecalToolbox #################
 
-#################### Menu pour changer la video #################
+############### Menu pour télécharger de nouvelles sources #################
+# Le téléchargement se fait en regardant les dépots disponible dans le fichier repository.txt
+
 MAJ_SOURCE_DL()
 {
 		cd $TOOLBOX_DOWNLOAD_PATH
-		wget -N $CLOUD_PATH/$UPDATE_DEPOT
 
-		#Décompression de l'archive
-		tar -xf $UPDATE_DEPOT -C $TOOLBOX_DOWNLOAD_PATH
-		rm -f $TOOLBOX_DOWNLOAD_PATH/$UPDATE_DEPOT
+while read ligne
+do
+set $(echo $ligne)
+DEPOT_NAME=$(eval echo $1)
+URL_SOURCE=$(eval echo $2)
+ARCH_NAME=$(eval echo $3)
+
+echo "Téléchargement de nouvelles sources depuis le dépot de $DEPOT_NAME"
+wget -N $URL_SOURCE/$ARCH_NAME
+
+echo "Extraction des nouveaux fichiers sources en cours"
+tar xvf $ARCH_NAME
+
+done < repository.txt
+
 		echo "La liste des dépots a été mise à jour."
 
 }
-#################### Fin de la fonction pour changer la video #################
+#################### Fin de la fonction téléchargement de nouvelels sources #################
 
 #################### Début modif durée vidéo ##################################
 LIST_GAMES()
