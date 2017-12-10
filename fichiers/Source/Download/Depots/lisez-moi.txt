@@ -1,0 +1,7 @@
+Si vous voulez ajouter une nouvelle source de téléchargement à votre RecaToolBox, il suffit de rajouter une ligne dans le fichier:
+source/repository.txt
+
+Le fichier doit contenir trois paramètres avec un espace à la fin
+
+Nom_depots http://mondomaine.com/arborescence package_update.tar
+
