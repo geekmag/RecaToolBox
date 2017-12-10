@@ -53,13 +53,15 @@ do
 	cd $THEME_PATH
 	# On affiche l'interface utilisateur
 	echo "Vous allez télécharger le thème: $THEME_NAME" 
-	echo "Cet thème est proposée par:" $AUTHOR
-	echo "cette téléchargement va se faire par:" $TYPE_LINK
+	echo "Ce thème est proposé par:" $AUTHOR
+	echo "Ce téléchargement va se faire par:" $TYPE_LINK
 	echo ""
 	echo "Voici ce que contient le pack:"
 	echo "$THEME_DESCRIPTION"
-	echo "Présentation dispo sur Youtube à l'URL suivante:"
-	echo "$YOUTUBE"
+	if [ -n "$YOUTUBE" ]; then
+        echo "Présentation dispo sur Youtube à l'URL suivante:"
+        echo "$YOUTUBE"
+	fi
 	echo "Le fichier nécessite $ARCH_SIZE d'espace disque"
 	echo "Il vous reste actuelement $FREESPACE d'espace libre"
 	#On affiche un choix pour demander confirmation du téléchargement
@@ -86,7 +88,7 @@ do
 				echo "Le type de lien n'est pas configuré, téléchargement impossible"
 			fi
 	
-	echo "Votre thème a bien été téléchargée"
+	echo "Votre thème a bien été téléchargé"
 	echo "Retourner au menu précédent et faire choix 2 pour décompresser le thème"
     # Il y aura un nouveau choix de proposé sauf si on stop la boucle
     break
@@ -101,16 +103,32 @@ done
 DEPLOY_THEMES()
 {
 
-echo "Seul les thèmes déposées préalablement dans le partage réseau de Recalbox apparaissent ici"
+echo "Seul les thèmes déposés préalablement dans le partage réseau de Recalbox apparaissent ici"
 echo "$THEME_PATH"
 #On se place dans le dossier contenant les collections de jeux
 cd $THEMES_DL
+
+#On génère une liste des thèmes qui ont déjà été téléchargés
+AVAILABLE_THEMES=()
+for filename in *.txt
+do
+    source $THEMES_DL/$filename
+    # Ici la variable ARCH_THEME_NAME devrait être complétée avec le nom de l'archive à utiliser
+    # Si elle ne l'est pas, on sort
+    if [ -z $ARCH_THEME_NAME ]; then
+        continue
+    fi
+    # On teste la présence de l'archive
+    if [ -f $THEME_PATH/$ARCH_THEME_NAME ]; then
+        AVAILABLE_THEMES+=("$filename")
+    fi
+done
 
 # invite de commande pour choisir l'option du select
 PS3="Entrez le numéro correspondant au thème que vous voulez ajouter à EmulationStation ou tapez 'retour' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir une archive tar en générant une liste de tous les fichiers *.tar
-select filename in *.txt
+select filename in ${AVAILABLE_THEMES[@]}
 do
     # quitte la boucle si l'utilisater met 'retour'
     if [[ "$REPLY" == retour ]]; then break; fi
@@ -130,7 +148,7 @@ do
 	echo "Description du pack $PACK_NAME en cours de copie"
 	echo $THEME_DESCRIPTION
 
-    # Si le répertoire de destination est fourni dans le fichier de configuration, on l'utilse
+    # Si le répertoire de destination est fourni dans le fichier de configuration, on l'utilise
     # dans le cas contraire, on utlise le path par défaut
     if [ -n "$THEME_FOLDER" ]; then
         tar xvf $THEME_PATH/$ARCH_THEME_NAME -C $THEME_FOLDER
@@ -156,7 +174,7 @@ do
   echo "Téléchargement de Thèmes
 
 
- 1) télécharger un thème pour EmulationStation
+ 1) Télécharger un thème pour EmulationStation
  2) Décompresser un thème
 
  R)  Retour au menu principal
@@ -176,7 +194,7 @@ do
     [2]*) DEPLOY_THEMES;;
 
     [Rr]*)  echo "Retour au menu précédent" ; exit 0 ;;
-    *)      echo "Choisissez une option affichee dans le menu:" ;;
+    *)      echo "Choisissez une option affichée dans le menu:" ;;
   esac
   echo ""
   echo "Appuyez sur Entrée pour retourner au menu"
