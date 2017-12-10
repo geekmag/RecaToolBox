@@ -1,0 +1,9 @@
+AUTHOR="Tonioz Le Ouf"
+YOUTUBE=
+ARCH_THEME_NAME="dbz.tar"
+THEME_FOLDER="/recalbox/share"
+THEME_NAME="DragonBallZ"
+TYPE_LINK="HTTP"
+DOWNLOAD_URL_THEME="recalbox.jey2k.fr/themes/dbz.tar"
+THEME_DESCRIPTION="Le thème créé par Tonioz Le Ouf sur le thème du manga japonais du même nom"
+ARCH_SIZE="59M"

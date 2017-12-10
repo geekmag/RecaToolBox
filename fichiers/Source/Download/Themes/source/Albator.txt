@@ -1,0 +1,9 @@
+AUTHOR="Tonioz Le Ouf"
+YOUTUBE=
+ARCH_THEME_NAME="albator.tar"
+THEME_FOLDER="/recalbox/share"
+THEME_NAME="Albator"
+TYPE_LINK="HTTP"
+DOWNLOAD_URL_THEME="recalbox.jey2k.fr/themes/albator.tar"
+THEME_DESCRIPTION="Un thème aux couleurs du manga Albator"
+ARCH_SIZE="66M"

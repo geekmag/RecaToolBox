@@ -1,0 +1,9 @@
+AUTHOR="Tonioz Le Ouf"
+YOUTUBE=
+ARCH_THEME_NAME="walkingDead.tar"
+THEME_FOLDER="/recalbox/share"
+THEME_NAME="WalkingDead"
+TYPE_LINK="HTTP"
+DOWNLOAD_URL_THEME="recalbox.jey2k.fr/themes/walkingDead.tar"
+THEME_DESCRIPTION="Un thème aux couleurs de la série Walking Dead"
+ARCH_SIZE="40M"

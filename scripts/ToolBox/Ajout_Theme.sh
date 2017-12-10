@@ -130,7 +130,16 @@ do
 	echo "Description du pack $PACK_NAME en cours de copie"
 	echo $THEME_DESCRIPTION
 
-	tar xvf $THEME_PATH/$ARCH_THEME_NAME -C $THEME_REP
+    # Si le répertoire de destination est fourni dans le fichier de configuration, on l'utilse
+    # dans le cas contraire, on utlise le path par défaut
+    if [ -n "$THEME_FOLDER" ]; then
+        #cd "$THEME_FOLDER"
+        #echo "On execute:"
+        #echo "tar xvf $THEME_PATH/$ARCH_THEME_NAME -C "
+        tar xvf $THEME_PATH/$ARCH_THEME_NAME -C $THEME_FOLDER
+    else
+        tar xvf $THEME_PATH/$ARCH_THEME_NAME -C $THEME_REP
+    fi
 	echo "Le thème a été installé: allez dans l'interface EmulationStation pour le sélectionner"
 	
     # Il y aura un nouveau choix de proposé sauf si on stop la boucle
