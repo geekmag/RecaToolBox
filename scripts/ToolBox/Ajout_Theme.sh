@@ -133,9 +133,6 @@ do
     # Si le répertoire de destination est fourni dans le fichier de configuration, on l'utilse
     # dans le cas contraire, on utlise le path par défaut
     if [ -n "$THEME_FOLDER" ]; then
-        #cd "$THEME_FOLDER"
-        #echo "On execute:"
-        #echo "tar xvf $THEME_PATH/$ARCH_THEME_NAME -C "
         tar xvf $THEME_PATH/$ARCH_THEME_NAME -C $THEME_FOLDER
     else
         tar xvf $THEME_PATH/$ARCH_THEME_NAME -C $THEME_REP
