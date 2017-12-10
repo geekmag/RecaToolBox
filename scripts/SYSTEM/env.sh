@@ -8,6 +8,7 @@
 echo "Création des alias..."
 
 #Création des variables d'environnement
+echo "export TOOLBOX_HOME='$TOOLBOX_HOME'" >> ~/.profile
 echo "export TOOLBOX_PATH='$TOOLBOX_PATH'" >> ~/.profile
 
 #Création des alias

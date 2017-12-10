@@ -7,7 +7,7 @@
 
 #chemin vers répertoire téléchargement de la usertoolbox
 ROMS_REP=/recalbox/share/roms
-ROMS_PATH=/recalbox/share/RecaToolBox/Download/Roms
+ROMS_PATH=$TOOLBOX_DOWNLOAD_PATH/Roms
 ROMS_DL=$ROMS_PATH/source
 
 #Test l'espace libre sur le FS

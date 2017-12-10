@@ -5,6 +5,14 @@
 # RDV sur geekmag.fr/recalbox/ pour la version mise à jour
 #19/11/2017
 
+# Test de sécurité si profil écrasé
+if [ -z $TOOLBOX_HOME]; then
+    export TOOLBOX_HOME=/recalbox/share/RecaToolBox
+fi
+if [ -z $TOOLBOX_PATH]; then
+    export TOOLBOX_PATH=$TOOLBOX_HOME/ToolBox
+fi
+export TOOLBOX_DOWNLOAD_PATH=$TOOLBOX_HOME/Download
 REP_SCRIPTS=$TOOLBOX_PATH/scripts
 trap "echo ' Control+C ne doit pas être utilisé! Pour quitter appuyez sur Q' ; sleep 5 ; clear ; continue " 1 2 3
 

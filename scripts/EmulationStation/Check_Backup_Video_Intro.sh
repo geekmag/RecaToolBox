@@ -10,7 +10,7 @@ mount -o remount,rw /
 SPLASH_PATH=/recalbox/system/resources/splash
 cd $VIDEO_INTRO_PATH
 
-VIDEO_INTRO_PATH=/recalbox/share/RecaToolBox/Download/video_intro
+VIDEO_INTRO_PATH=$TOOLBOX_DOWNLOAD_PATH/video_intro
 INTRO_VIDEO=recalboxintro.mp4
 BK_INTRO_VIDEO=recalboxintro.mp4.original
  

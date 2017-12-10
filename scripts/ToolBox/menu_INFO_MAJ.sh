@@ -6,13 +6,9 @@
 
 
 #déclaration des variables
-REP_SCRIPTS=$TOOLBOX_PATH/geekmag_menu/scripts
 CLOUD_PATH=http://geekmag78.free.fr/recalbox/recaltoobox/
 UPDATE_NAME=toolbox_update.tar
 UPDATE_DEPOT=package_update.tar
-#Chemin ou va être téléchargé l'archive
-TOOLBOX_USER=/recalbox/share/RecaToolBox
-DOWNLOAD_PATH=$TOOLBOX_USER/Download
 
 #Test l'espace libre sur le FS
 FREESPACE=$(df -h /recalbox/share | awk '{print $4}' | tail -n 1)
@@ -29,12 +25,12 @@ echo    "Dommage il y avait surement plein de nouvelles fonctions au top ^^"
 if [[ $REPLY =~ ^[OoYy]$ ]]
 then
     echo "Youpi! C'est parti, y aura peut être une nouvelle interface web de ouf dans cette MAJ?"
-		cd $DOWNLOAD_PATH
+		cd $TOOLBOX_DOWNLOAD_PATH
 		wget -N $CLOUD_PATH/$UPDATE_NAME
 
 		#Décompression de l'archive
 		tar -xf $UPDATE_NAME -C $TOOLBOX_PATH
-		rm -f $DOWNLOAD_PATH/$UPDATE_NAME
+		rm -f $TOOLBOX_DOWNLOAD_PATH/$UPDATE_NAME
 		echo "La Recalttobox a été mise à jour."
 fi
 }
@@ -43,12 +39,12 @@ fi
 #################### Menu pour changer la video #################
 MAJ_SOURCE_DL()
 {
-		cd $DOWNLOAD_PATH
+		cd $TOOLBOX_DOWNLOAD_PATH
 		wget -N $CLOUD_PATH/$UPDATE_DEPOT
 
 		#Décompression de l'archive
-		tar -xf $UPDATE_DEPOT -C $DOWNLOAD_PATH
-		rm -f $DOWNLOAD_PATH/$UPDATE_DEPOT
+		tar -xf $UPDATE_DEPOT -C $TOOLBOX_DOWNLOAD_PATH
+		rm -f $TOOLBOX_DOWNLOAD_PATH/$UPDATE_DEPOT
 		echo "La liste des dépots a été mise à jour."
 
 }
@@ -58,10 +54,10 @@ MAJ_SOURCE_DL()
 LIST_GAMES()
 {
  echo "Une liste de tous les jeux installés est en cours de création"
- ls -R /recalbox/share/roms > $TOOLBOX_USER/liste_Jeux.txt
+ ls -R /recalbox/share/roms > $TOOLBOX_HOME/liste_Jeux.txt
  clear
  echo "La liste a été créée dans le partage réseau ;) "
- ls -lh $TOOLBOX_USER/liste_Jeux.txt
+ ls -lh $TOOLBOX_HOME/liste_Jeux.txt
  
  read -p "Appuyez sur une touche pour continuer"
 }

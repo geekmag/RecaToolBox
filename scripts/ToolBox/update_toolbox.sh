@@ -10,9 +10,6 @@ echo "Installation en cours..."
 #Passer le FS est écriture
 mount -o remount,rw /
 
-
-#Chemin d'installation
-#GEEK_MENU=/recalbox/scripts/geekmag_menu
 #Nom de l'archive a deployer
 ARCH_NAME=RecalToolboox_update.tar
 
@@ -22,8 +19,6 @@ tar -xf $ARCH_NAME -C $TOOLBOX_PATH
 #correction des droits sur les fichiers
 dos2unix $TOOLBOX_PATH/scripts/*.sh
 chmod +x $TOOLBOX_PATH/scripts/*
-
-
 
 #nettoyage des fichiers d'installation
 #rm -f $PWD/$ARCH_NAME
