@@ -1,0 +1,12 @@
+Déposez ici les fichiers *.txt contenant les informations relatif au téléchargement que vous souhaitez pourvoir initier au travers de la RecaToolBox.
+
+Le fichier doit respecter la structure suivante:
+
+AUTHOR="Eric78"
+YOUTUBE=
+ARCH_BIOS_NAME="all_bios.tar"
+BIOS_NAME="Full set des BIOS"
+TYPE_LINK="HTTP"
+DOWNLOAD_URL_BIOS="mondomaine.fr/arborescence/nom_archive.tar"
+BIOS_DESCRIPTION="Vous mettez ici la description du contenu de l'archive"
+ARCH_SIZE="32M"

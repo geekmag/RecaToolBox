@@ -1,0 +1,2 @@
+C'est ici que seront téléchargés automatiquement les fichiers Bezel.
+Vous pouvez également déposer directement dans ce dossier un fichier que vous aurez récupérer sans passer le télécharger via RecaToolBox. Il sera ainsi prise en compte par la fonction de déploiement automatique.
