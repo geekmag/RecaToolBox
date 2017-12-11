@@ -1,0 +1,7 @@
+C'est ici que seront téléchargés automatiquement les vidéo pour EmulationStation au format MP4
+
+Vous pouvez également déposer directement dans ce dossier un fichier vidéo que vous aurez récupérer sans passer par RecaToolBox.
+Il sera ainsi prise en compte par la fonction de déploiement automatique.
+
+Pour que de nouvelles vidéo soit proposées en téléchargement via la RecaToolbox, il faut ajouter un fichier de paramètre contenant l'adresse d'un dépot proposant les fichiers en téléchargement. 
+Ce fichier doit être présent dans le sous répertoire source. (voir fichier lisez-moi.nfo)

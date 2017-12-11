@@ -6,10 +6,10 @@
 #19/11/2017
 
 # Test de sécurité si profil écrasé
-if [ -z $TOOLBOX_HOME]; then
+if [ -z $TOOLBOX_HOME ]; then
     export TOOLBOX_HOME=/recalbox/share/RecaToolBox
 fi
-if [ -z $TOOLBOX_PATH]; then
+if [ -z $TOOLBOX_PATH ]; then
     export TOOLBOX_PATH=$TOOLBOX_HOME/ToolBox
 fi
 export TOOLBOX_DOWNLOAD_PATH=$TOOLBOX_HOME/Download

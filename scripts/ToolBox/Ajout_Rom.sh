@@ -117,10 +117,12 @@ cd $ROMS_DL
 
 #On génère une liste des packs de ROMS qui ont déjà été téléchargés
 AVAILABLE_ROMS=()
+
 for filename in */*.txt
 do
     FILE_BASENAME=${filename##*/}
-	FILE_PATH=${filename%/*}
+	  FILE_PATH=${filename%/*}
+
     source $ROMS_DL/$filename
     # Ici la variable ARCH_ROMS_NAME devrait être complétée avec le nom de l'archive à utiliser
     # Si elle ne l'est pas, on sort

@@ -1,0 +1,15 @@
+Déposez ici les fichiers *.txt contenant les informations relatif au téléchargement que vous souhaitez pourvoir initier au travers de la RecaToolBox.
+
+Le fichier doit respecter la structure suivante:
+
+
+AUTHOR="Eric78"
+YOUTUBE="Adresse d'une vidéo sur Youtube"
+ARCH_COLLECTION_NAME="Zelda_Collection.tar"
+COLLECTION_FOLDER="zc"
+THEME_NAME="Legend of Zelda"
+ADD_NEW_ES_SYS="zelda.xml"
+TYPE_LINK="HTTP"
+DOWNLOAD_URL_COLLECTION="mondomaine.com/arborescence/Zelda_Collection.tar"
+PACK_DESCRIPTION="Cette compilation contient tous les meilleurs jeux Zelda ayant existés sur console Nintendo portable et salon"
+ARCH_SIZE="185M"

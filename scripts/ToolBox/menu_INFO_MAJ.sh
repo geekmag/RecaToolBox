@@ -8,7 +8,9 @@
 #déclaration des variables
 CLOUD_PATH=http://geekmag78.free.fr/recalbox/recaltoobox/
 UPDATE_NAME=toolbox_update.tar
-UPDATE_DEPOT=package_update.tar
+
+DEPOTS_PATH=$TOOLBOX_DOWNLOAD_PATH/Depots
+DEPOTS_DL=$DEPOTS_PATH/source
 
 REPOSITORY_PATH=$TOOLBOX_DOWNLOAD_PATH/Repository
 REPOSITORY_DL=$REPOSITORY_PATH/source
@@ -160,21 +162,21 @@ return 1
 		cd $TOOLBOX_DOWNLOAD_PATH
 
 while read ligne
-do
-set $(echo $ligne)
-DEPOT_NAME=$(eval echo $1)
-URL_SOURCE=$(eval echo $2)
-ARCH_NAME=$(eval echo $3)
+	do
+	set $(echo $ligne)
+	DEPOT_NAME=$(eval echo $1)
+	URL_SOURCE=$(eval echo $2)
+	ARCH_NAME=$(eval echo $3)
 
 echo "Téléchargement de nouvelles sources depuis le dépot de $DEPOT_NAME"
 wget -N $URL_SOURCE/$ARCH_NAME
 
 echo "Extraction des nouveaux fichiers sources en cours"
-tar xvf $ARCH_NAME
+	tar xvf $ARCH_NAME -C $TOOLBOX_DOWNLOAD_PATH
 
-done < repository.txt
+done < $DEPOTS_DL/repository.txt
 
-		echo "La liste des dépots a été mise à jour."
+		echo "La liste des dépots a été mise à jour."		
 
 }
 #################### Fin de la fonction téléchargement de nouvelels sources #################

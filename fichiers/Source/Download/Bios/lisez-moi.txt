@@ -1,0 +1,6 @@
+C'est ici que seront téléchargés automatiquement les fichiers fichiers BIOS nécessaire au bon fonctionnement de certaines consoles et système d'Arcade.
+Vous pouvez également déposer directement dans ce dossier un fichier *.tar que vous aurez récupérer sans passer le télécharger via RecaToolBox.
+Il sera ainsi prise en compte par la fonction de déploiement automatique.
+
+Pour que des BIOS apparaissent, il faut ajouter un fichier contenant l'adresse d'un dépot proposant les fichiers en téléchargement. 
+Ce fichier doit être présent dans le sous répertoire Download.

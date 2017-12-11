@@ -1,0 +1,17 @@
+Déposez ici les fichiers *.txt contenant les informations relatif au téléchargement que vous souhaitez pourvoir initier au travers de la RecaToolBox.
+
+Le fichier doit respecter la structure suivante:
+
+
+AUTHOR="Eric78"
+YOUTUBE=""
+ARCH_ROMS_NAME="nom_de_l-'archive.tar"
+ROMS_FOLDER=""
+ROM_NAME="Hack et Homebrew"
+TYPE_LINK="HTTP"
+DOWNLOAD_URL_COLLECTION="mondomaine.fr/arborscence/nom_de_l-'archive.tar"
+ROM_DESCRIPTION="Décrivez ici le contenu de votre archive"
+ARCH_SIZE="17M"
+
+Il faut impérativement mettre les guillemets (ouvrant et fermant) après le signe égal
+Pour la variable ARCH_ROMS_NAME remplacez les espaces par des _

@@ -1,0 +1,7 @@
+C'est ici que seront téléchargés automatiquement les archives contenant en ensemble de ROMS de jeux
+
+Vous pouvez également déposer directement dans ce dossier un fichier *.tar que vous aurez récupérer sans passer le télécharger via RecaToolBox.
+Il sera ainsi prise en compte par la fonction de déploiement automatique.
+
+Pour que des pack de jeux soit proposés en téléchargement via la RecaToolbox, il faut ajouter un fichier de paramètre contenant l'adresse d'un dépot proposant les fichiers en téléchargement. 
+Ce fichier doit être présent dans le sous répertoire source.

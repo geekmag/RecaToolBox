@@ -1,0 +1,2 @@
+GeekMag http://geekmag78.free.fr/recalbox/recaltoobox package_update.tar
+

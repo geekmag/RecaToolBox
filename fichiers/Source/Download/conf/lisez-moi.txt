@@ -1,0 +1,1 @@
+Ce dossier contient des fichiers de configurations particuliers tel qu'un ES SYSTEMS personnalisé avec des collection particulières.
