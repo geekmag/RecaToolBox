@@ -77,7 +77,7 @@ UPDATE_REPOSITORY() {
         cd $REPOSITORY_PATH/$REPO_PREFIX/working
         wget $ENTRY_URL
         WGET_RESULT=$?
-        echo "Wget est sorti avec le code $WGET_RESULT"
+        #echo "Wget est sorti avec le code $WGET_RESULT"
         if [[ $WGET_RESULT != 0 ]]
         then
             echo "Téléchargement en erreur, on passe au fichier suivant"
@@ -85,7 +85,7 @@ UPDATE_REPOSITORY() {
         fi;
 
         OUTPUT_PATH=""
-        echo "Juste avant le test, ENTRY_TYPE vaut $ENTRY_TYPE"
+        #echo "Juste avant le test, ENTRY_TYPE vaut $ENTRY_TYPE"
         if [[ "$ENTRY_TYPE" == "ROMS" ]]
         then
             OUTPUT_PATH=$TOOLBOX_DOWNLOAD_PATH/Roms/source/$REPO_PREFIX
@@ -95,6 +95,12 @@ UPDATE_REPOSITORY() {
         elif [[ "$ENTRY_TYPE" == "VIDEOS" ]]
         then
             OUTPUT_PATH=$TOOLBOX_DOWNLOAD_PATH/video_intro/source/$REPO_PREFIX
+        elif [[ "$ENTRY_TYPE" == "BIOS" ]]
+        then
+            OUTPUT_PATH=$TOOLBOX_DOWNLOAD_PATH/Bios/source/$REPO_PREFIX
+        elif [[ "$ENTRY_TYPE" == "COLLECTION" ]]
+        then
+            OUTPUT_PATH=$TOOLBOX_DOWNLOAD_PATH/Collection/source/$REPO_PREFIX
         else
             echo "Type de fichier non géré"
             rm $REPOSITORY_PATH/$REPO_PREFIX/working/*
@@ -103,18 +109,24 @@ UPDATE_REPOSITORY() {
         for catalogEntryTar in *.tar
         do
             echo "Fichier tar à traiter: $catalogEntryTar"
-            echo "OutputPath: $OUTPUT_PATH"
+            #echo "OutputPath: $OUTPUT_PATH"
             if [[ ! -d $OUTPUT_PATH ]]; then
                 mkdir $OUTPUT_PATH
             fi
             tar xvf $catalogEntryTar -C $OUTPUT_PATH
             rm $catalogEntryTar
         done
+
 #        for catalogEntryTxt in *.txt
 #        do
 #            echo "Fichier tar à traiter: $catalogEntryTxt"
 #        done
     done < $REPOSITORY_PATH/$REPO_PREFIX/$REPO_CATALOG_URL
+
+    if [[ -d $REPOSITORY_PATH/$REPO_PREFIX/working ]];
+    then
+        rm -R $REPOSITORY_PATH/$REPO_PREFIX/working
+    fi
 
     echo "Fin du traitement du repository $REPO_NAME"
 
@@ -133,13 +145,13 @@ dos2unix $REPOSITORY_DL/*.txt
 
 for filename in *.txt
 do
-    echo "Traitement du fichier $filename"
+    # echo "Traitement du fichier $filename"
     # On charge la configuration du repository
     source $REPOSITORY_DL/$filename
 
     echo "Repository $REPO_NAME identifié"
 
-    echo "On attaque son traitement"
+    #echo "On attaque son traitement"
     UPDATE_REPOSITORY
 
 done

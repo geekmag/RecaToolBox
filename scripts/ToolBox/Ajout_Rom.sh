@@ -158,8 +158,13 @@ do
 	ls -lh $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME
 	echo "Description du pack $ROM_NAME en cours de copie"
 	echo $ROM_DESCRIPTION
+	if [ -n "$ROMS_FOLDER" ]; then
+        tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_FOLDER
+    else
+        tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_REP
+    fi
 
-	tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_REP
+
 	echo "Les ROMS ont été copiées dans leur répertoire respectif"
 	
     # Il y aura un nouveau choix de proposé sauf si on stop la boucle

@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 ##############################
 # Configuration de moonlight
 # Geekmag.fr
@@ -22,13 +22,13 @@ DL_VIDEO()
 #on se place dans le dossier contenant la liste des fichiers txt contenant les info relatives
 cd $VIDEO_INTRO_DL
 #Pour éviter les problèmes de caractères
-dos2unix $VIDEO_INTRO_DL/*
+dos2unix $VIDEO_INTRO_DL/*/*.txt
 
 # invite de commande pour choisir l'option du select
 PS3="Entrez le numéro correspondant à la vidéo que vous voulez télécharger au démarrage de Recalbox ou tapez 'retour' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir une video en générant une liste de tous les fichiers .txt contenant les URL de téléchargement
-select filename in *.txt
+select filename in */*.txt
 do
     # quitte la boucle si l'utilisater met 'retour'
     if [[ "$REPLY" == retour ]]; then break; fi
@@ -42,19 +42,28 @@ do
 
     # maintenant on peut travailler sur le fichier txt sélectionné contenant les info sur l'archive à télécharger
 	# le nom de fichier est récupéré en variable
+	FILE_BASENAME=${filename##*/}
+	FILE_PATH=${filename%/*}
 	# On charge les variables du fichier externe
 	source  $VIDEO_INTRO_DL/$filename
+	# On crée le répertoire de téléchargement s'il n'existe pas déjà
+	if [[ ! -d $VIDEO_INTRO_PATH/$FILE_PATH ]]
+	then
+	    mkdir $VIDEO_INTRO_PATH/$FILE_PATH
+	fi
 	# On se place dans le répertoire de téléchargement
-	cd $VIDEO_INTRO_PATH
+	cd $VIDEO_INTRO_PATH/$FILE_PATH
 	# On affiche l'interface utilisateur
 	echo "Vous allez télécharger la vidéo: $VIDEO_TITLE" 
-	echo "cette video est proposée par:" $AUTHOR
-	echo "cette video est proposée par:" $TYPE_LINK
+	echo "Cette video est proposée par:" $AUTHOR
+	echo "Cette video va se faire par:" $TYPE_LINK
 	echo ""
 	echo "Voici ce que contient le pack:"
 	echo "$PACK_DESCRIPTION"
-	echo "preview de la video dispo sur Youtube à l'URL suivante:"
-	echo "$YOUTUBE"
+	if [ -n "$YOUTUBE" ]; then
+        echo "Présentation dispo sur Youtube à l'URL suivante:"
+        echo "$YOUTUBE"
+    fi
 	echo "Le fichier nécessite $ARCH_SIZE d'espace disque"
 	echo "Il vous reste actuelement $FREESPACE d'espace libre"
 	#On affiche un choix pour demander confirmation du téléchargement
@@ -102,7 +111,7 @@ cd $VIDEO_INTRO_PATH
 PS3="Entrez le numéro correspondant à la vidéo que vous voulez diffuser au démarrage de Recalbox ou tapez 'retour' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir une video en générant une liste de tous les fichiers .mp4
-select filename in *.mp4
+select filename in */*.mp4
 do
     # quitte la boucle si l'utilisater met 'retour'
     if [[ "$REPLY" == retour ]]; then break; fi
@@ -124,11 +133,11 @@ do
 		echo "Vérification de la vidéo d'intro actuelement utilisée"
 		$TOOLBOX_PATH/scripts/EmulationStation/Check_SYMLINK_Intro_Video.sh
 		echo "Remplacement de la vidéo en cours"
-		echo "Patientez la durée de copie varie en fonction de la taille de votre vidéo"
+		echo "Patientez. La durée de copie varie en fonction de la taille de votre vidéo"
 		cp $VIDEO_INTRO_PATH/$filename $SPLASH_PATH/recalboxintro.mp4
 		echo "Votre nouvelle vidéo d'intro a bien été mise en place :)"
 		ls -l $SPLASH_PATH |grep *.mp4
-		echo "redémarrez pour l'admirer ;)"
+		echo "Redémarrez pour l'admirer ;)"
 
     # Il y aura un nouveau choix de proposé sauf si on stop la boucle
     break
@@ -164,7 +173,7 @@ do
   # affichage
   #..........................................................................
   clear
-  echo "Choississez l'option de votre choix pour modifier la vidéo qui s'affiche au démarrage de votre Recalbox
+  echo "Choisissez l'option de votre choix pour modifier la vidéo qui s'affiche au démarrage de votre Recalbox
 
 
 1) Télécharger une vidéo d'intro
@@ -188,7 +197,7 @@ Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
 	[3]*) VIDEO_TIME;;
 
     [Rr]*)  echo "Retour au menu précédent" ; exit 0 ;;
-    *)      echo "Choisissez une option affichee dans le menu:" ;;
+    *)      echo "Choisissez une option affichée dans le menu:" ;;
   esac
   echo ""
   echo "Appuyez sur Entrée pour retourner au menu"
