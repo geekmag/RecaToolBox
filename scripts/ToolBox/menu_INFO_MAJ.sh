@@ -56,7 +56,7 @@ echo "Téléchargement de nouvelles sources depuis le dépot de $DEPOT_NAME"
 wget -N $URL_SOURCE/$ARCH_NAME
 
 echo "Extraction des nouveaux fichiers sources en cours"
-	tar xvf $ARCH_NAME -C $DEPOTS_PATH
+	tar xvf $ARCH_NAME -C $TOOLBOX_DOWNLOAD_PATH
 
 done < $DEPOTS_DL/repository.txt
 
