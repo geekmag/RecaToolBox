@@ -27,13 +27,13 @@ DOWNLOAD_ROMS()
 #on se place dans le dossier contenant la liste des fichiers txt contenant les info relatives au téléchargement
 cd $ROMS_DL
 #Pour éviter les problèmes de caractères
-dos2unix $ROMS_DL/*.txt
+dos2unix $ROMS_DL/*/*.txt
 
 # invite de commande pour choisir l'option du select
 PS3="Entrez le numéro correspondant à packs de ROMS que vous voulez télécharger ou tapez 'retour' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir un pack de ROMS en générant une liste de tous les fichiers .txt contenant les URL de téléchargement
-select filename in *.txt
+select filename in */*.txt
 do
     # quitte la boucle si l'utilisater met 'retour'
     if [[ "$REPLY" == retour ]]; then break; fi
@@ -47,10 +47,17 @@ do
 
     # maintenant on peut travailler sur le fichier txt sélectionné contenant les info sur l'archive à télécharger
 	# le nom de fichier est récupéré en variable
+	FILE_BASENAME=${filename##*/}
+	FILE_PATH=${filename%/*}
 	# On charge les variables du fichier externe
 	source  $ROMS_DL/$filename
+	# On crée le répertoire de téléchargement s'il n'existe pas déjà
+	if [[ ! -d $ROMS_PATH/$FILE_PATH ]]
+	then
+	    mkdir $ROMS_PATH/$FILE_PATH
+	fi
 	# On se place dans le répertoire de téléchargement
-	cd $ROMS_PATH
+	cd $ROMS_PATH/$FILE_PATH
 	# On affiche l'interface utilisateur
 	echo "Vous allez télécharger le pack: $COLLECTION_FOLDER" 
 	echo "Cette collection est proposée par:" $AUTHOR
@@ -110,8 +117,12 @@ cd $ROMS_DL
 
 #On génère une liste des packs de ROMS qui ont déjà été téléchargés
 AVAILABLE_ROMS=()
-for filename in *.txt
+
+for filename in */*.txt
 do
+    FILE_BASENAME=${filename##*/}
+	  FILE_PATH=${filename%/*}
+
     source $ROMS_DL/$filename
     # Ici la variable ARCH_ROMS_NAME devrait être complétée avec le nom de l'archive à utiliser
     # Si elle ne l'est pas, on sort
@@ -119,7 +130,7 @@ do
         continue
     fi
     # On teste la présence de l'archive
-    if [ -f $ROMS_PATH/$ARCH_ROMS_NAME ]; then
+    if [ -f $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME ]; then
         AVAILABLE_ROMS+=("$filename")
     fi
 done
@@ -140,16 +151,22 @@ do
         echo "'$REPLY' n'est pas un numéro valide"
         continue
     fi
-
+    FILE_BASENAME=${filename##*/}
+	FILE_PATH=${filename%/*}
 	# On charge les variables du fichier externe
 	source  $ROMS_DL/$filename
     # maintenant on peut travailler sur le fichier d'archive en utilsiant le fichier de conf
 	echo "Décompression de l'archive $ARCH_ROMS_NAME"
-	ls -lh $ROMS_PATH/$ARCH_ROMS_NAME
+	ls -lh $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME
 	echo "Description du pack $ROM_NAME en cours de copie"
 	echo $ROM_DESCRIPTION
+	if [ -n "$ROMS_FOLDER" ]; then
+        tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_FOLDER
+    else
+        tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_REP
+    fi
 
-	tar xvf $ROMS_PATH/$ARCH_ROMS_NAME -C $ROMS_REP
+
 	echo "Les ROMS ont été copiées dans leur répertoire respectif"
 	
     # Il y aura un nouveau choix de proposé sauf si on stop la boucle

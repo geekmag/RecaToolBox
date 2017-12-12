@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 ##############################
 # Ajout d'une collection de jeux
 # ROM + THEME + fichier de conf ES
@@ -30,13 +30,13 @@ DL_COLLECTION()
 #on se place dans le dossier contenant la liste des fichiers txt contenant les info relatives
 cd $COLLECTION_DL
 #Pour éviter les problèmes de caractères
-dos2unix $COLLECTION_DL/*
+dos2unix $COLLECTION_DL/*/*
 
 # invite de commande pour choisir l'option du select
 PS3="Entrez le numéro correspondant à la collection de jeux que vous voulez ajouter sur l'écran d'acceuil Emulation Station ou tapez 'retour' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir une collection en générant une liste de tous les fichiers .txt contenant les URL de téléchargement
-select filename in *.txt
+select filename in */*.txt
 do
     # quitte la boucle si l'utilisater met 'retour'
     if [[ "$REPLY" == retour ]]; then break; fi
@@ -50,19 +50,28 @@ do
 
     # maintenant on peut travailler sur le fichier txt sélectionné contenant les info sur l'archive à télécharger
 	# le nom de fichier est récupéré en variable
+	FILE_BASENAME=${filename##*/}
+	FILE_PATH=${filename%/*}
 	# On charge les variables du fichier externe
 	source  $COLLECTION_DL/$filename
+	# On crée le répertoire de téléchargement s'il n'existe pas déjà
+	if [[ ! -d $COLLECTION_PATH/$FILE_PATH ]]
+	then
+	    mkdir $COLLECTION_PATH/$FILE_PATH
+	fi
 	# On se place dans le répertoire de téléchargement
-	cd $COLLECTION_PATH
+	cd $COLLECTION_PATH/$FILE_PATH
 	# On affiche l'interface utilisateur
 	echo "Vous allez télécharger le pack: $COLLECTION_FOLDER" 
 	echo "Cette collection est proposée par:" $AUTHOR
-	echo "cette téléchargement va se faire par:" $TYPE_LINK
+	echo "Ce téléchargement va se faire par:" $TYPE_LINK
 	echo ""
 	echo "Voici ce que contient le pack:"
 	echo "$PACK_DESCRIPTION"
-	echo "Présentation dispo sur Youtube à l'URL suivante:"
-	echo "$YOUTUBE"
+	if [ -n "$YOUTUBE" ]; then
+        echo "Présentation dispo sur Youtube à l'URL suivante:"
+        echo "$YOUTUBE"
+    fi
 	echo "Le fichier nécessite $ARCH_SIZE d'espace disque"
 	echo "Il vous reste actuelement $FREESPACE d'espace libre"
 	#On affiche un choix pour demander confirmation du téléchargement
@@ -89,7 +98,7 @@ do
 				echo "Le type de lien n'est pas configuré, téléchargement impossible"
 			fi
 	
-	echo "Votre pack a bien été téléchargée"
+	echo "Votre pack a bien été téléchargé"
 	echo "Retourner au menu précédent et faire choix 2 pour installer ce pack sur EmulationStation"
     # Il y aura un nouveau choix de proposé sauf si on stop la boucle
     break
@@ -106,11 +115,29 @@ echo "$COLLECTION_PATH"
 #On se place dans le dossier contenant les collections de jeux
 cd $COLLECTION_DL
 
+#On génère une liste des packs de ROMS qui ont déjà été téléchargés
+AVAILABLE_COLLECTIONS=()
+for filename in */*.txt
+do
+    FILE_BASENAME=${filename##*/}
+	FILE_PATH=${filename%/*}
+    source $COLLECTION_DL/$filename
+    # Ici la variable ARCH_ROMS_NAME devrait être complétée avec le nom de l'archive à utiliser
+    # Si elle ne l'est pas, on sort
+    if [ -z $ARCH_COLLECTION_NAME ]; then
+        continue
+    fi
+    # On teste la présence de l'archive
+    if [ -f $COLLECTION/$FILE_PATH/$ARCH_COLLECTION_NAME ]; then
+        AVAILABLE_COLLECTIONS+=("$filename")
+    fi
+done
+
 # invite de commande pour choisir l'option du select
 PS3="Entrez le numéro correspondant à la collection de jeux que vous voulez ajouter à EmulationStation ou tapez 'retour' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir une archive tar en générant une liste de tous les fichiers *.tar
-select filename in *.txt
+select filename in ${AVAILABLE_COLLECTIONS[@]}
 do
     # quitte la boucle si l'utilisater met 'retour'
     if [[ "$REPLY" == retour ]]; then break; fi
@@ -121,32 +148,33 @@ do
         echo "'$REPLY' n'est pas un numéro valide"
         continue
     fi
-
+    FILE_BASENAME=${filename##*/}
+	FILE_PATH=${filename%/*}
 	# On charge les variables du fichier externe
 	source  $COLLECTION_DL/$filename
     # maintenant on peut travailler sur le fichier d'archive en utilsiant le fichier de conf
 	echo "Décompression de l'archive $ARCH_COLLECTION_NAME"
-	ls -lh $COLLECTION_PATH/$ARCH_COLLECTION_NAME
+	ls -lh $COLLECTION_PATH/$FILE_PATH/$ARCH_COLLECTION_NAME
 	echo "Description du pack $COLLECTION_FOLDER en cours d'installation dans EmulationStation"
 	echo $PACK_DESCRIPTION
 	echo "Le pack contient un thème: $THEME_NAME"
 	echo "ainsi qu'un fichier $ADD_NEW_ES_SYS qui permet d'ajouter cette collection sur l'écran d'accueil d'EmulationStation"
 
 
-		tar xvf $COLLECTION_PATH/$ARCH_COLLECTION_NAME -C $COLLECTION_PATH
+		tar xvf $COLLECTION_PATH/$FILE_PATH/$ARCH_COLLECTION_NAME -C $COLLECTION_PATH/$FILE_PATH
 		echo "Copie du thème "$THEME_NAME" en cours..."
-		echo "de "$COLLECTION_PATH/$COLLECTION_FOLDER/$THEME_NAME" vers "$THEME_PATH""
-		mv "$COLLECTION_PATH/$COLLECTION_FOLDER/$THEME_NAME" $THEME_PATH
+		echo "de "$COLLECTION_PATH/$FILE_PATH/$COLLECTION_FOLDER/$THEME_NAME" vers "$THEME_PATH""
+		mv "$COLLECTION_PATH/$FILE_PATH/$COLLECTION_FOLDER/$THEME_NAME" $THEME_PATH
 		echo "sauvegarde du fichier de conf ES SYSTEMS initial"
 		cp $ES_SYSTEMS_PATH/es_systems.cfg $ES_SYSTEMS_PATH/es_systems.cfg.back
 		echo "Modification du $ES_SYSTEMS_PATH/es_systems.cfg en cours"
-		cd $COLLECTION_PATH/$COLLECTION_FOLDER
-		sed '/<systemList>/r '$ADD_NEW_ES_SYS'' $ES_SYSTEMS_PATH/es_systems.cfg > $COLLECTION_PATH/$COLLECTION_FOLDER/temp_$ADD_NEW_ES_SYS && cp temp_$ADD_NEW_ES_SYS $ES_SYSTEMS_PATH/es_systems.cfg
-		echo "Le fichier a bien été modifier"
+		cd $COLLECTION_PATH/$FILE_PATH/$COLLECTION_FOLDER
+		sed '/<systemList>/r '$ADD_NEW_ES_SYS'' $ES_SYSTEMS_PATH/es_systems.cfg > $COLLECTION_PATH/$FILE_PATH/$COLLECTION_FOLDER/temp_$ADD_NEW_ES_SYS && cp temp_$ADD_NEW_ES_SYS $ES_SYSTEMS_PATH/es_systems.cfg
+		echo "Le fichier a bien été modifié"
 		ls -l $ES_SYSTEMS_PATH/es_systems.cfg
 		rm -f temp_$ADD_NEW_ES_SYS $ADD_NEW_ES_SYS
 		echo "Déplacement du pack de ROMS, patientez quelques instants"
-		mv $COLLECTION_PATH/$COLLECTION_FOLDER $ROM_PATH
+		mv $COLLECTION_PATH/$FILE_PATH/$COLLECTION_FOLDER $ROM_PATH
 		echo "Allez dans le menu Emulationstation et sélectionnez le thème $THEME_NAME"
 		echo "Redémarrez votre recalbox et admirez ;)"
 
@@ -185,7 +213,7 @@ Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
     [2]*) SCAN_COLLECTION;;
 
     [Rr]*)  echo "Retour au menu précédent" ; exit 0 ;;
-    *)      echo "Choisissez une option affichee dans le menu:" ;;
+    *)      echo "Choisissez une option affichée dans le menu:" ;;
   esac
   echo ""
   echo "Appuyez sur Entrée pour retourner au menu"
