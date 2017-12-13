@@ -1,10 +1,19 @@
 Changelog de la RecalToolbox
 
+v0.6 - ???
+Jey2k:
+- Mise en place d'un processus de build automatique (génération pack installation / mlise à jour)
+- Revue/simplification du processus d'installation / mise à jour
+- Renumérotation de certaines entrées de menu (0 pour sortir)
+- Mise en place et affichage d'un numéro de version dans le menu principal
+- Sécurisation de l'adaptation des paramètres Samba (double exécution impossible)
+- Sécurisation de l'adaptation des paramètres du profil (double exécution impossible)
+
 Build du 10/12 
 Jérémy alias Jey2k rejoint le projet et fournit un énorme taf de relecture du code:
 - nettoyage du code et optmisation des variables
 - création de son propre dépot et ajout de 7 thèmes + gestion compatibilité format avec PINN
-- ajout de contrôle pour les fonctions d'installation de thème et ROMS poru n'afficher dans le menu installation que ceux ayant vraiment été téléchargé)
+- ajout de contrôle pour les fonctions d'installation de thème et ROMS pour n'afficher dans le menu installation que ceux ayant vraiment été téléchargés)
 - révision complète de l'arborescence
 
 Eric: ajout documentation:

@@ -13,6 +13,7 @@ if [ -z $TOOLBOX_PATH ]; then
     export TOOLBOX_PATH=$TOOLBOX_HOME/ToolBox
 fi
 export TOOLBOX_DOWNLOAD_PATH=$TOOLBOX_HOME/Download
+source $TOOLBOX_PATH/VERSION
 REP_SCRIPTS=$TOOLBOX_PATH/scripts
 trap "echo ' Control+C ne doit pas être utilisé! Pour quitter appuyez sur Q' ; sleep 5 ; clear ; continue " 1 2 3
 
@@ -101,7 +102,7 @@ cat << "EOT"
 
 
 
-r )  Retourner au menu précédent
+0 )  Retourner au menu précédent
 q )  Quitter le menu
 
 Entres la lettre correspondant à l option de ton choix et validez par Entree
@@ -116,7 +117,7 @@ case "$answer" in
 	  CHANGE_PROFILE;;
 [3]*) echo "Version beta du script: cette fonction n'est pas encore active";;
 
-[Rr]*) menu_main  ;;
+[0]*) menu_main  ;;
 [Qq]*)  echo "Retour au menu principal" ; exit 0 ;;
 *)      echo "Choisi un profil avec pour chacun sa collection de jeux et son thème" ;;
 esac
@@ -142,7 +143,7 @@ cat << "EOT"
 2 )  Télécharger des BIOS
 3 )  Configurer Steam Link (Moonlight)
 
-r )  Retour au menu principal
+0 )  Retour au menu principal
 q )  Quitter le menu
 
 Tu as besoin de télécharger quoi? des jeux ou des BIOS?
@@ -158,7 +159,7 @@ case "$answer" in
 	   DL_BIOS;;
 [3]*)  echo "Chargement de l'assistant de configuration Steam "
 	   STEAM;;
-[Rr]*) menu_main  ;;
+[0]*) menu_main  ;;
 [Qq]*)  echo "Sortie du menu telechargement" ; exit 0 ;;
 *)      echo "Merci de sélectionner une option valide" ;;
 esac
@@ -186,7 +187,7 @@ cat << "EOT"
 3 )  Changer la video d'intro (splashscreen de démarrage)
 4 )  Changer l'ordre d'affichage des consoles
 
-r )  Retour au menu principal
+0 )  Retour au menu principal
 q )  Quitter le menu
 
 Tu as besoin de télécharger quoi? des jeux ou des BIOS?
@@ -204,7 +205,7 @@ case "$answer" in
 	   SWITCH_Intro_VIDEO;;
 [4]*)  #Chargement du menu pour switcher les fichiers de conf
 	   SWITCH_Ordre_SYSTEM;;	   
-[Rr]*) menu_main  ;;
+[0]*) menu_main  ;;
 [Qq]*)  echo "Sortie du menu de personnalisation" ; exit 0 ;;
 *)      echo "Merci de sélectionner une option valide" ;;
 esac
@@ -221,19 +222,20 @@ RET=menu_main
 while true
 do
 clear
+echo "RecaToolBox - version $TOOLBOX_VERSION"
 cat << "EOT"
 --------------------------------------
 	   Menu principal
 --------------------------------------
 
-u )  Utilisateurs (gérer les profils)
-j )  Jeux (téléchargement ROMS /BIOS + conf Steam)
-p )  Personnaliser l'interface EMULATIONSTATION
-s )  Système (USB / SD / NAS et IMG)
-i )  Informations et Mise à jour
+1 )  Utilisateurs (gérer les profils)
+2 )  Jeux (téléchargement ROMS /BIOS + conf Steam)
+3 )  Personnaliser l'interface EMULATIONSTATION
+4 )  Système (USB / SD / NAS et IMG)
+5 )  Informations et Mise à jour
 
 
-q )  Quitter (sortir du menu)
+0 )  Quitter (sortir du menu)
 
 Sélectionnes l'option de ton choix pour personnaliser automatiquement ta Recalbox
 
@@ -242,16 +244,16 @@ EOT
 read answer
 clear
 case "$answer" in
-[Uu]*) menu_user ;;
-[Jj]*) menu_DL ;;
-[Pp]*) menu_CUSTOM ;;
-[Ss]*) menu_SYSTEM ;;
-[Ii]*) APROPOS ;;
-[Qq]*)  echo "Bye ami gamer! A Bientôt sur GeekMag.fr pour les mises à jour" ; exit 0 ;;
+[1]*) menu_user ;;
+[2]*) menu_DL ;;
+[3]*) menu_CUSTOM ;;
+[4]*) menu_SYSTEM ;;
+[5]*) APROPOS ;;
+[0]*)  echo "Bye ami gamer! A Bientôt sur GeekMag.fr pour les mises à jour" ; exit 0 ;;
 *)      echo "Hey mec faut choisir une option qui existe :)" ;;
 esac
 echo ""
-echo "Appuies sur enrée pour revenir"
+echo "Appuyez sur Entrée pour revenir"
 read dummy
 done
 }
