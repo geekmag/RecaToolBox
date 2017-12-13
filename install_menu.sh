@@ -1,8 +1,7 @@
 #!/bin/bash
-#Installation des scripts permettant de personnaliser Recalbox
+#Installation des scripts nécessaire au fonctionnement de la RecaToolBox
 # Source : GeekMag.fr
-#Version 1.0
-#19/11/2017
+#13/12/2017
 ##########################################################
 
 echo "Installation en cours..."
@@ -17,7 +16,6 @@ export TOOLBOX_DOWNLOAD_PATH=$TOOLBOX_HOME/Download
 
 #Création du dossier qui stock les scripts
 mkdir $TOOLBOX_HOME
-mkdir $TOOLBOX_PATH
 
 ################# Déclaration des variables ##############
 
@@ -25,7 +23,7 @@ mkdir $TOOLBOX_PATH
 ARCH_NAME=RecaToolBox.tar
 
 #Décompression de l'archive
-tar -xf $ARCH_NAME -C $TOOLBOX_PATH
+tar -xf $ARCH_NAME -C $TOOLBOX_HOME
 
 #Création des alias pour lancer le menu et les variables d'environnement
 $TOOLBOX_PATH/scripts/SYSTEM/env.sh
@@ -34,9 +32,6 @@ source ~/.profile
 
 #Ajout des droits d'execution sur les fichiers
 $TOOLBOX_PATH/scripts/SYSTEM/fic_droits.sh
-
-#Création de l'arborescence utilisateur
-$TOOLBOX_PATH/scripts/ToolBox/make_arbo.sh
 
 #Modification des partages Samba
 $TOOLBOX_PATH/scripts/SYSTEM/samba.sh
@@ -47,7 +42,7 @@ $TOOLBOX_PATH/scripts/SYSTEM/samba.sh
 #rm -f $PWD/$ARCH_NAME
 
 clear
-more $TOOLBOX_PATH/fichiers/ASCII_Logo.txt
+$TOOLBOX_PATH/scripts/ToolBox/banner.sh
 echo ""
 echo ""
 echo "Bravo! Vous venez d'installer la RecalToolboox qui va vous aider à configurer Recalbox"
@@ -55,4 +50,3 @@ echo "Tapez menu pour lancer la configuration et validez par entrée"
 echo ""
 echo "Lors de la première utilisation, il est conseillé d'aller dans le menu:"
 echo "Informations et Mise à jour puis faire mettre à jour la source des téléchargement"
-
