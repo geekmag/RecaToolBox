@@ -15,7 +15,9 @@ export TOOLBOX_PATH=$TOOLBOX_HOME/ToolBox
 export TOOLBOX_DOWNLOAD_PATH=$TOOLBOX_HOME/Download
 
 #Création du dossier qui stock les scripts
-mkdir $TOOLBOX_HOME
+if [ ! -d $TOOLBOX_HOME ]; then
+    mkdir $TOOLBOX_HOME
+fi
 
 ################# Déclaration des variables ##############
 
@@ -31,12 +33,10 @@ $TOOLBOX_PATH/scripts/SYSTEM/env.sh
 source ~/.profile
 
 #Ajout des droits d'execution sur les fichiers
-$TOOLBOX_PATH/scripts/SYSTEM/fic_droits.sh
+# $TOOLBOX_PATH/scripts/SYSTEM/fic_droits.sh
 
 #Modification des partages Samba
 $TOOLBOX_PATH/scripts/SYSTEM/samba.sh
-
-
 
 #nettoyage des fichiers d'installation
 #rm -f $PWD/$ARCH_NAME
@@ -45,8 +45,8 @@ clear
 $TOOLBOX_PATH/scripts/ToolBox/banner.sh
 echo ""
 echo ""
-echo "Bravo! Vous venez d'installer la RecalToolboox qui va vous aider à configurer Recalbox"
+echo "Bravo! Vous venez d'installer la RecaToolbox qui va vous aider à configurer Recalbox"
 echo "Tapez menu pour lancer la configuration et validez par entrée"
 echo ""
 echo "Lors de la première utilisation, il est conseillé d'aller dans le menu:"
-echo "Informations et Mise à jour puis faire mettre à jour la source des téléchargement"
+echo "Informations et Mise à jour puis faire mettre à jour la source des téléchargements"

@@ -7,6 +7,7 @@
 
 #déclaration des variables
 CLOUD_PATH=http://geekmag78.free.fr/recalbox/recaltoobox/
+#CLOUD_PATH=http://recalbox.jey2k.fr/recatoolbox
 UPDATE_NAME=toolbox_update.tar
 
 DEPOTS_PATH=$TOOLBOX_DOWNLOAD_PATH/Depots
@@ -24,19 +25,19 @@ mount -o remount,rw /
 ############### Début menu téléchargement MAJ RecalToolBox #################
 DL_MAJ_TOOLBOX()
 {
-read -p "Etes vous sur de vouloir télécharger la MAJ de la RecalToolBox (O ou N)? " -n 1 -r
+read -p "Etes vous sûr de vouloir télécharger la MAJ de la RecaToolBox (O ou N)? " -n 1 -r
 echo ""
 echo    "Dommage il y avait surement plein de nouvelles fonctions au top ^^"
 if [[ $REPLY =~ ^[OoYy]$ ]]
 then
-    echo "Youpi! C'est parti, y aura peut être une nouvelle interface web de ouf dans cette MAJ?"
+    echo "Youpi! C'est parti, il y aura peut être une nouvelle interface web de ouf dans cette MAJ?"
 		cd $TOOLBOX_DOWNLOAD_PATH
 		wget -N $CLOUD_PATH/$UPDATE_NAME
 
 		#Décompression de l'archive
-		tar -xf $UPDATE_NAME -C $TOOLBOX_PATH
+		tar -xf $UPDATE_NAME -C $TOOLBOX_HOME
 		rm -f $TOOLBOX_DOWNLOAD_PATH/$UPDATE_NAME
-		echo "La Recalttobox a été mise à jour."
+		echo "La RecaToolbox a été mise à jour."
 fi
 }
 ############### Fin menu téléchargement MAJ RecalToolbox #################
@@ -157,26 +158,8 @@ do
     UPDATE_REPOSITORY
 
 done
-return 1
-
-		cd $TOOLBOX_DOWNLOAD_PATH
-
-while read ligne
-	do
-	set $(echo $ligne)
-	DEPOT_NAME=$(eval echo $1)
-	URL_SOURCE=$(eval echo $2)
-	ARCH_NAME=$(eval echo $3)
-
-echo "Téléchargement de nouvelles sources depuis le dépot de $DEPOT_NAME"
-wget -N $URL_SOURCE/$ARCH_NAME
-
-echo "Extraction des nouveaux fichiers sources en cours"
-	tar xvf $ARCH_NAME -C $TOOLBOX_DOWNLOAD_PATH
-
-done < $DEPOTS_DL/repository.txt
-
-		echo "La liste des dépots a été mise à jour."		
+echo "La liste des dépots a été mise à jour."
+return 0
 
 }
 #################### Fin de la fonction téléchargement de nouvelels sources #################
@@ -206,7 +189,7 @@ do
 2) Mettre à jour la sources de téléchargement (Roms / Themes...)
 3) Générer une liste des jeux installés
 
-R) Retour au menu principal
+0) Retour au menu principal
 
 Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
 
@@ -222,10 +205,10 @@ Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
     [2]*) MAJ_SOURCE_DL;;
 	[3]*) LIST_GAMES;;
 
-    [Rr]*)  echo "Retour au menu précédent" ; exit 0 ;;
-    *)      echo "Choisissez une option affichee dans le menu:" ;;
+    [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
+    *)      echo "Choisissez une option affichée dans le menu:" ;;
   esac
-  echo ""
-  echo "Appuyez sur Entrée pour retourner au menu"
-  read dummy
+#  echo ""
+#  echo "Appuyez sur Entrée pour retourner au menu"
+#  read dummy
 done
