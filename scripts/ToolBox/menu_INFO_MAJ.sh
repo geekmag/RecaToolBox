@@ -179,9 +179,10 @@ LIST_GAMES()
 while true
 do
   #..........................................................................
-  # affichage
+  # affichage Info + recherche MAJ
   #..........................................................................
   clear
+  $TOOLBOX_PATH/scripts/SYSTEM/version.sh
   echo "
 
 
