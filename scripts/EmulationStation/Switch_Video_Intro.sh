@@ -9,6 +9,8 @@
 VIDEO_INTRO_PATH=$TOOLBOX_DOWNLOAD_PATH/video_intro
 VIDEO_INTRO_DL=$VIDEO_INTRO_PATH/source
 SPLASH_PATH=/recalbox/system/resources/splash
+VIDEO_TIME_PATH=/etc/init.d/S02splash
+RECATOOLBOX_RESOURCE_DIR=$SPLASH_PATH/RecaToolBox
 
 #Test l'espace libre sur le FS
 FREESPACE=$(df -h /recalbox/share | awk '{print $4}' | tail -n 1)
@@ -65,7 +67,7 @@ do
         echo "$YOUTUBE"
     fi
 	echo "Le fichier nécessite $ARCH_SIZE d'espace disque"
-	echo "Il vous reste actuelement $FREESPACE d'espace libre"
+	echo "Il vous reste actuellement $FREESPACE d'espace libre"
 	#On affiche un choix pour demander confirmation du téléchargement
 			echo -n "Voulez-vous lancer le téléchargement (o/n)? "
 			read CONFIRMATION
@@ -89,7 +91,12 @@ do
 			else
 				echo "Le type de lien n'est pas configuré, téléchargement impossible"
 			fi
-	
+			VIDEO_BASENAME=${DOWNLOAD_URL_VIDEO##*/}
+			if [ -n $VIDEO_LENGTH ]; then
+			    echo "VIDEO_LENTGH=$VIDEO_LENGTH" > $VIDEO_BASENAME.length
+			else
+                echo "VIDEO_LENTGH=0" > $VIDEO_BASENAME.length
+			fi
 	echo "Votre vidéo a bien été téléchargée"
 	echo "Retourner au menu précédent et faire choix 2 pour configurer cette vidéo en tant qu'intro de démarrage"
     # Il y aura un nouveau choix de proposé sauf si on stop la boucle
@@ -99,10 +106,82 @@ done
 }
 ############### Fin menu téléchargement video #################
 
+############### Hack Video Time ###########################
+
+
+################## Fin hack video Time ############################
+
+JEY_LAUNCH()
+{
+HACK_VIDEO_TIME
+INIT_SPLASH_FILES
+}
+
+HACK_VIDEO_TIME()
+{
+    # On vérifie d'abord si le script a déjà été patché
+    ALREADY_PATCHED=`grep \\\$VIDEO_LENGTH $VIDEO_TIME_PATH | wc -l`
+    # On crée le répertoire de persistence de la longeur de video s'il n'existe pas déja
+    if [ ! -d $RECATOOLBOX_RESOURCE_DIR ]; then
+        mkdir $RECATOOLBOX_RESOURCE_DIR
+        mkdir $RECATOOLBOX_RESOURCE_DIR/videos
+    fi
+    if [ ! -d $RECATOOLBOX_RESOURCE_DIR/videos ]; then
+        mkdir $RECATOOLBOX_RESOURCE_DIR/videos
+    fi
+    if [ "$ALREADY_PATCHED" == "0" ];
+    then
+        echo "Le fichier n'est pas encore patché, on procède"
+        echo "ALREADY_PATCHED=$ALREADY_PATCHED"
+
+        echo "VIDEO_LENGTH=0" > $RECATOOLBOX_RESOURCE_DIR/videoLength.sh
+        chmod +x $RECATOOLBOX_RESOURCE_DIR/videoLength.sh
+        # On backup le fichier
+        cp $VIDEO_TIME_PATH $VIDEO_TIME_PATH.original
+        cat > $VIDEO_TIME_PATH << "EOT"
+# Début Modification RecaToolbox
+source /recalbox/system/resources/splash/RecaToolBox/videoLength.sh
+# Fin Modification RecaToolBox
+EOT
+        cat $VIDEO_TIME_PATH.original >> $VIDEO_TIME_PATH
+        chmod -x $VIDEO_INTRO_PATH.original
+        sed '/Stop the video when/{n;s/.*/if [[ \$? -eq \$VIDEO_LENGTH ]]; then/}' $VIDEO_TIME_PATH
+
+        cp $TOOLBOX_PATH/scripts/EmulationStation/Randomize.sh
+    else
+         echo "Rien à faire, le fichier est déjà patché"
+    fi
+}
+
+INIT_SPLASH_FILES()
+{
+    if [ -f $VIDEO_INTRO_PATH/recalboxintro.mp4.original ]; then
+        cp $VIDEO_INTRO_PATH/recalboxintro.mp4.original $RECATOOLBOX_RESOURCE_DIR/videos/recalboxintro.mp4
+    else
+        cp $SPLASH_PATH/recalboxintro.mp4 $RECATOOLBOX_RESOURCE_DIR/videos/recalboxintro.mp4
+    fi
+    for filename in $VIDEO_INTRO_PATH/*/*.mp4
+    do
+        FILE_BASENAME=${filename##*/}
+        FILE_PATH=${filename%/*}
+        if [ ! -f $RECATOOLBOX_RESOURCE_DIR/videos/$FILE_BASENAME ]; then
+            echo "En cours de copie: $FILE_BASENAME"
+            cp $filename $RECATOOLBOX_RESOURCE_DIR/videos/$FILE_BASENAME
+        else
+            echo "Fichier $FILE_BASENAME déjà présent"
+        fi
+        if [ -f $filename.length ]; then
+            cp $filename.length $RECATOOLBOX_RESOURCE_DIR/videos/$FILE_BASENAME.length
+        fi
+    done
+    cp $TOOLBOX_PATH/scripts/EmulationStation/Randomize.sh /etc/init.d/S02randomize
+}
+
+
 #################### Menu pour changer la video #################
 SCAN_VIDEO()
 {
-echo "Seul les vidéos déposées préalablement dans le partage réseau de Recalbox apparaisse ici"
+echo "Seules les vidéos déposées préalablement dans le partage réseau de Recalbox apparaissent ici"
 echo "$VIDEO_INTRO_PATH"
 #On se place dans le dossier contenant les vidéos
 cd $VIDEO_INTRO_PATH
@@ -179,8 +258,9 @@ do
 1) Télécharger une vidéo d'intro
 2) Choisir directement une vidéo déposée dans le partage Recalbox
 3) Modifier la durée de la vidéo d'intro
+4) Mettre en place le hack video
 
-R) Retour au menu principal
+0) Retour au menu principal
 
 Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
 
@@ -195,8 +275,9 @@ Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
     [1]*) DL_VIDEO;;
     [2]*) SCAN_VIDEO;;
 	[3]*) VIDEO_TIME;;
+	[4]*) JEY_LAUNCH;;
 
-    [Rr]*)  echo "Retour au menu précédent" ; exit 0 ;;
+    [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
     *)      echo "Choisissez une option affichée dans le menu:" ;;
   esac
   echo ""
