@@ -9,6 +9,11 @@ Jey2k:
 - Sécurisation de l'adaptation des paramètres Samba (double exécution impossible)
 - Sécurisation de l'adaptation des paramètres du profil (double exécution impossible)
 
+Eric (build du 14/12/17)
+Le numéro de version de RecaTooBox a été déporté dans le menu "Info et mise à jour" ou l'on peut maintenant trouvé d'autres informations que le numéro de Build de Recalbox, l'adresse IP, le nom du thème (info utile quand on fait un ajout de collection dans ES SYSTEM)
+Ajout d'une ébauche de documentation du principe de fonctionnement des dépôts mise en place par Jey2K:
+https://github.com/geekmag/RecaToolBox/wiki/Cr%C3%A9er-un-d%C3%A9pot:-mettre-vos-cr%C3%A9ations-%C3%A0-disposition-de-la-communaut%C3%A9-des-gamers
+
 Build du 10/12 
 Jérémy alias Jey2k rejoint le projet et fournit un énorme taf de relecture du code:
 - nettoyage du code et optmisation des variables
