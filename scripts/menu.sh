@@ -1,9 +1,9 @@
 #! /bin/sh
 ##############################
 #Script permettant de configurer dans Recalbox
-#Version beta 0.5
+#Version beta 0.6
 # RDV sur geekmag.fr/recalbox/ pour la version mise à jour
-#19/11/2017
+#14/12/2017
 
 # Test de sécurité si profil écrasé
 if [ -z $TOOLBOX_HOME ]; then
@@ -13,7 +13,7 @@ if [ -z $TOOLBOX_PATH ]; then
     export TOOLBOX_PATH=$TOOLBOX_HOME/ToolBox
 fi
 export TOOLBOX_DOWNLOAD_PATH=$TOOLBOX_HOME/Download
-source $TOOLBOX_PATH/VERSION
+
 REP_SCRIPTS=$TOOLBOX_PATH/scripts
 trap "echo ' Control+C ne doit pas être utilisé! Pour quitter appuyez sur Q' ; sleep 5 ; clear ; continue " 1 2 3
 
@@ -222,7 +222,7 @@ RET=menu_main
 while true
 do
 clear
-echo "RecaToolBox - version $TOOLBOX_VERSION"
+
 cat << "EOT"
 --------------------------------------
 	   Menu principal
