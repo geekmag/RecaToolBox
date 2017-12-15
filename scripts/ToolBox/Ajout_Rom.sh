@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script permettant de télécharger des jeux
 # http://www.geekmag.fr/recatoolbox/ pour la version mise à jour
-# 27/11/2017
+# 15/12/2017
 
 ###########   déclaration des variables ####################
 
@@ -169,10 +169,7 @@ do
 		*.tar)
 			echo "Décompression du TAR"	
 				tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_FOLDER;;
-		
-		#*.tar.gz)
-		#	echo "Décompression du TAR GZ"	
-		#		tar xzvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_FOLDER;;
+				
 		*.tar.gz|*.tgz) 
 			echo "Décompression du TGZ"	    
 				tar xzvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_FOLDER;;
