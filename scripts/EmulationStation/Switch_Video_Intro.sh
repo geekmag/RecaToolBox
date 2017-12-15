@@ -124,7 +124,6 @@ HACK_VIDEO_TIME()
     # On crée le répertoire de persistence de la longeur de video s'il n'existe pas déja
     if [ ! -d $RECATOOLBOX_RESOURCE_DIR ]; then
         mkdir $RECATOOLBOX_RESOURCE_DIR
-        mkdir $RECATOOLBOX_RESOURCE_DIR/videos
     fi
     if [ ! -d $RECATOOLBOX_RESOURCE_DIR/videos ]; then
         mkdir $RECATOOLBOX_RESOURCE_DIR/videos
@@ -138,16 +137,17 @@ HACK_VIDEO_TIME()
         chmod +x $RECATOOLBOX_RESOURCE_DIR/videoLength.sh
         # On backup le fichier
         cp $VIDEO_TIME_PATH $VIDEO_TIME_PATH.original
-        cat > $VIDEO_TIME_PATH << "EOT"
+        chmod -x $VIDEO_TIME_PATH.original
+        cat > $VIDEO_TIME_PATH.tmp << "EOT"
 # Début Modification RecaToolbox
 source /recalbox/system/resources/splash/RecaToolBox/videoLength.sh
 # Fin Modification RecaToolBox
 EOT
-        cat $VIDEO_TIME_PATH.original >> $VIDEO_TIME_PATH
-        chmod -x $VIDEO_INTRO_PATH.original
-        sed '/Stop the video when/{n;s/.*/if [[ \$? -eq \$VIDEO_LENGTH ]]; then/}' $VIDEO_TIME_PATH
+        cat $VIDEO_TIME_PATH.original >> $VIDEO_TIME_PATH.tmp
+        sed '/Stop the video when/{n;s/.*/if [[ \$? -eq \$VIDEO_LENGTH ]]; then/}' $VIDEO_TIME_PATH.tmp > $VIDEO_TIME_PATH
 
-        cp $TOOLBOX_PATH/scripts/EmulationStation/Randomize.sh
+        cp $TOOLBOX_PATH/scripts/EmulationStation/Randomize.sh /etc/init.d/S02randomize
+        chmod +x /etc/init.d/S02randomize
     else
          echo "Rien à faire, le fichier est déjà patché"
     fi
