@@ -22,3 +22,4 @@ echo -e "$Banner"
 echo
 
 echo -e "							${PINK}Reca${RED}Toolbox ${GREEN}by ${YELLOW}GeekMag${BLUE}.fr"
+echo -e "${NC}"
