@@ -1,6 +1,6 @@
 Changelog de la RecalToolbox
 
-v0.6 - ???
+v0.6
 Jey2k:
 - Mise en place d'un processus de build automatique (génération pack installation / mlise à jour)
 - Revue/simplification du processus d'installation / mise à jour
@@ -10,9 +10,13 @@ Jey2k:
 - Sécurisation de l'adaptation des paramètres du profil (double exécution impossible)
 
 Eric (build du 14/12/17)
-Le numéro de version de RecaTooBox a été déporté dans le menu "Info et mise à jour" ou l'on peut maintenant trouvé d'autres informations que le numéro de Build de Recalbox, l'adresse IP, le nom du thème (info utile quand on fait un ajout de collection dans ES SYSTEM)
+Le numéro de version de RecaTooBox a été déporté dans le menu "Info et mise à jour" ou l'on peut maintenant trouver d'autres détails tel que le numéro de Build de Recalbox, l'adresse IP, le nom du thème en cours d'utilisation, l'affichage de la température.
+
 Ajout d'une ébauche de documentation du principe de fonctionnement des dépôts mise en place par Jey2K:
 https://github.com/geekmag/RecaToolBox/wiki/Cr%C3%A9er-un-d%C3%A9pot:-mettre-vos-cr%C3%A9ations-%C3%A0-disposition-de-la-communaut%C3%A9-des-gamers
+
+Doc sur l'ajout de dépots dans sa recalbox
+https://github.com/geekmag/RecaToolBox/wiki/Ajouter-un-d%C3%A9p%C3%B4t-%C3%A0-votre-RecaToolBox
 
 Build du 10/12 
 Jérémy alias Jey2k rejoint le projet et fournit un énorme taf de relecture du code:
@@ -31,6 +35,7 @@ https://github.com/geekmag/RecaToolBox
 + Version contenant des dépots sur GeekMag.fr/recaltoolbox
 
 __________________________________________________________________________
+Internal build
 
 v0.5 - 29/11/2017
 Ajout d'un menu pour configurer moonlight (Steam)

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script permettant de télécharger des jeux
 # http://www.geekmag.fr/recatoolbox/ pour la version mise à jour
-# 27/11/2017
+# 15/12/2017
 
 ###########   déclaration des variables ####################
 
@@ -30,13 +30,14 @@ cd $ROMS_DL
 dos2unix $ROMS_DL/*/*.txt
 
 # invite de commande pour choisir l'option du select
-PS3="Entrez le numéro correspondant à packs de ROMS que vous voulez télécharger ou tapez 'retour' pour sortir du menu: "
+PS3="Entrez le numéro correspondant au packs de ROMS que vous voulez télécharger
+Tapez '0' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir un pack de ROMS en générant une liste de tous les fichiers .txt contenant les URL de téléchargement
 select filename in */*.txt
 do
     # quitte la boucle si l'utilisater met 'retour'
-    if [[ "$REPLY" == retour ]]; then break; fi
+    if [[ "$REPLY" == 0 ]]; then break; fi
 
     # Affiche un message d'erreur si choix invalide et boucle pour demander à nouveau
     if [[ "$filename" == "" ]]
@@ -137,13 +138,14 @@ done
 
 
 # invite de commande pour choisir l'option du select
-PS3="Entrez le numéro correspondant à la collection de jeux que vous voulez ajouter à EmulationStation ou tapez 'retour' pour sortir du menu: "
+PS3="Entrez le numéro correspondant au pack de jeux que vous voulez ajouter à EmulationStation
+Tapez '0' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir une archive tar en générant une liste de tous les fichiers *.tar
 select filename in ${AVAILABLE_ROMS[@]}
 do
-    # quitte la boucle si l'utilisater met 'retour'
-    if [[ "$REPLY" == retour ]]; then break; fi
+    # quitte la boucle si l'utilisater tape '0'
+    if [[ "$REPLY" == 0 ]]; then break; fi
 
     # Affiche un message d'erreur si choix invalide et boucle pour demander à nouveau
     if [[ "$filename" == "" ]]
@@ -155,15 +157,55 @@ do
 	FILE_PATH=${filename%/*}
 	# On charge les variables du fichier externe
 	source  $ROMS_DL/$filename
-    # maintenant on peut travailler sur le fichier d'archive en utilsiant le fichier de conf
+    # maintenant on peut travailler sur le fichier d'archive en utilisant le fichier de conf
 	echo "Décompression de l'archive $ARCH_ROMS_NAME"
 	ls -lh $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME
 	echo "Description du pack $ROM_NAME en cours de copie"
 	echo $ROM_DESCRIPTION
 	if [ -n "$ROMS_FOLDER" ]; then
-        tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_FOLDER
+        		
+	#Test de l extension de l archive pour déterminer quelle commande passer pour décompresser
+	case "$ARCH_ROMS_NAME" in
+		*.tar)
+			echo "Décompression du TAR"	
+				tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_FOLDER;;
+				
+		*.tar.gz|*.tgz) 
+			echo "Décompression du TGZ"	    
+				tar xzvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_FOLDER;;
+		*.gz)  
+			echo "Décompression du GZ"	
+				gunzip -c $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME > $ROMS_FOLDER/$ARCH_ROMS_NAME;;
+		*.zip) 
+			echo "Décompression du ZIP"	    
+				unzip $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -d $ROMS_FOLDER;;
+		*.*)
+			echo "Type d'archive non supportée: Recalbox ne gère pas les .rar ni les .bz2" ; exit 1;;		
+	esac
+		
+			
     else
-        tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_REP
+		
+	#Même test pour l'autre arborescence
+	
+		case "$ARCH_ROMS_NAME" in
+		*.tar)
+			echo "Archive au format TAR supporté"	
+				tar xvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_REP;;
+		
+		*.tar.gz|*.tgz) 
+			echo "Archive au format tar.gz et tgz supporté"	    
+				tar xzvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_REP;;
+		*.gz)  
+			echo "Archive compressée en.gz supporté"	
+				gunzip -c $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME > $ROMS_REP/$ARCH_ROMS_NAME;;
+		*.zip) 
+			echo "Archive ZIP supporté OK"	    
+				unzip $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -d $ROMS_REP;;
+		*.*)
+		  echo "Type d'archive non supportée: Recalbox ne gère pas les .rar ni les .bz2" ; exit 1;;
+	esac
+		
     fi
 
 
@@ -189,7 +231,7 @@ do
  1) Télécharger un pack de jeux
  2) Décompresser un pack de jeux
 
- R)  Retour au menu principal
+ 0)  Retour au menu principal
 
  Tapez le chiffre correspondant à votre choix
  puis appuyez sur Entrée"
@@ -205,7 +247,7 @@ do
     [1]*) DOWNLOAD_ROMS;;
     [2]*) DEPLOY_ROMS;;
 
-    [Rr]*)  echo "Retour au menu précédent" ; exit 0 ;;
+    [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
     *)      echo "Choisissez une option affichée dans le menu:" ;;
   esac
   echo ""
