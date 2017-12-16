@@ -2,12 +2,12 @@
 ##############################
 #Menu pour gérer les options system
 #Autheur: Eric (GeekMag.fr)
-#03/12/2017
+# Créé le: 03/12/2017
+# Dernière MAJ: 17/12/2017
 
 MOUNT_NAS()
 {
-echo "Version beta: cette option n'est pas encore active"
-#$TOOLBOX_PATH/scripts/SYSTEM/montage_NAS.sh
+$TOOLBOX_PATH/scripts/SYSTEM/montage_NAS.sh
 }
 
 LOAD_IMG()
@@ -53,7 +53,7 @@ do
 5 )  Rebooter Recalbox
 6 )  Arrêter le système
 
-r)  Retour au menu principal
+0)  Retour au menu principal
 
 Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
 
@@ -72,7 +72,7 @@ Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
 	[5]*) REBOOT;;
 	[6]*) SHUTDOWN;;
 
-    [Rr]*)  echo "Retour au menu précédent" ; exit 0 ;;
+    [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
     *)      echo "Choisissez une option affichee dans le menu:" ;;
   esac
   echo ""
