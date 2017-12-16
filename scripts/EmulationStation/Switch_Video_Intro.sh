@@ -11,6 +11,7 @@ VIDEO_INTRO_DL=$VIDEO_INTRO_PATH/source
 SPLASH_PATH=/recalbox/system/resources/splash
 VIDEO_TIME_PATH=/etc/init.d/S02splash
 RECATOOLBOX_RESOURCE_DIR=$SPLASH_PATH/RecaToolBox
+CUSTOM_SCRIPT_FILE=/recalbox/share/system/custom.sh
 
 #Test l'espace libre sur le FS
 FREESPACE=$(df -h /recalbox/share | awk '{print $4}' | tail -n 1)
@@ -93,9 +94,9 @@ do
 			fi
 			VIDEO_BASENAME=${DOWNLOAD_URL_VIDEO##*/}
 			if [ -n $VIDEO_LENGTH ]; then
-			    echo "VIDEO_LENTGH=$VIDEO_LENGTH" > $VIDEO_BASENAME.length
+			    echo "VIDEO_LENGTH=$VIDEO_LENGTH" > $VIDEO_BASENAME.length
 			else
-                echo "VIDEO_LENTGH=0" > $VIDEO_BASENAME.length
+                echo "VIDEO_LENGTH=0" > $VIDEO_BASENAME.length
 			fi
 	echo "Votre vidéo a bien été téléchargée"
 	echo "Retourner au menu précédent et faire choix 2 pour configurer cette vidéo en tant qu'intro de démarrage"
@@ -106,28 +107,115 @@ done
 }
 ############### Fin menu téléchargement video #################
 
-############### Hack Video Time ###########################
+############### Randomizer ###########################
 
-
-################## Fin hack video Time ############################
-
-JEY_LAUNCH()
+RANDOMIZER_MENU()
 {
-HACK_VIDEO_TIME
-INIT_SPLASH_FILES
+    while true
+    do
+        clear
+        echo " ****  Vidéo aléatoire *****
+1) Installer le patch
+2) Mise à jour des vidéos ( ajoute les vidéos précédemment téléchargées )
+3) Désinstaller le patch
+
+0) Retour au menu précédent
+
+Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
+        read answer
+        clear
+        case "$answer" in
+            [1]*) INSTALL_RANDOMIZER
+                    echo 'Appuyez sur Entrée pour continuer'
+                    read dummy;;
+            [2]*) INIT_SPLASH_FILES
+                    echo 'Appuyez sur Entrée pour continuer'
+                    read dummy;;
+            [3]*) UNINSTALL_RANDOMIZER
+                    echo 'Appuyez sur Entrée pour continuer'
+                    read dummy;;
+
+            [0]*)  echo "Retour au menu précédent" ; return 0 ;;
+            *)      echo "Choisissez une option affichée dans le menu:" ;;
+        esac
+    done
+}
+
+INSTALL_RANDOMIZER()
+{
+    HACK_VIDEO_TIME
+    HACK_CUSTOM_SCRIPT
+    INIT_SPLASH_FILES
+}
+
+UNINSTALL_RANDOMIZER()
+{
+    # On va récupérer la copie original du fichier splash
+    if [ -f $RECATOOLBOX_RESOURCE_DIR/S02splash.original ]; then
+        cp $RECATOOLBOX_RESOURCE_DIR/S02splash.original $VIDEO_TIME_PATH
+        rm $RECATOOLBOX_RESOURCE_DIR/S02splash.original
+        echo 'Fichier S02Splash restauré'
+    fi
+
+    # Supprimer l'entrée dans le custom
+    if [ -f $CUSTOM_SCRIPT_FILE.original ]; then
+        cp $CUSTOM_SCRIPT_FILE.original $CUSTOM_SCRIPT_FILE
+        rm $CUSTOM_SCRIPT_FILE.original
+        echo 'Custom script restauré'
+    fi
+
+    if [ -f $SPLASH_PATH/recalboxintro.mp4.original ]; then
+        if [ -L $SPLASH_PATH/recalboxintro.mp4 ]; then
+            unlink $SPLASH_PATH/recalboxintro.mp4
+        else
+            rm $SPLASH_PATH/recalboxintro.mp4
+        fi
+        cp $SPLASH_PATH/recalboxintro.mp4.original $SPLASH_PATH/recalboxintro.mp4
+        echo 'Vidéo intro original restaurée'
+    fi
+
+    if [ -d $RECATOOLBOX_RESOURCE_DIR ]; then
+        rm -R $RECATOOLBOX_RESOURCE_DIR
+        echo 'Répertoire de travail supprimé'
+    fi
+
+}
+
+HACK_CUSTOM_SCRIPT()
+{
+    ALREADY_PATCHED=`grep Randomize $CUSTOM_SCRIPT_FILE | wc -l`
+    if [ "$ALREADY_PATCHED" == "0" ];
+    then
+        #On s'occupe du script de lancement
+        if [ ! -e $CUSTOM_SCRIPT_FILE ]; then
+            echo "" > $CUSTOM_SCRIPT_FILE
+        fi
+        cp $CUSTOM_SCRIPT_FILE $CUSTOM_SCRIPT_FILE.original
+        chmod +x $CUSTOM_SCRIPT_FILE
+        echo "# Execution du tirage au sort de vidéos, et remplacement de la vidéo actuelle" >> $CUSTOM_SCRIPT_FILE
+#        echo "set -x" >> $CUSTOM_SCRIPT_FILE
+        echo "recallog 'Demarrage Randomizer'" >> $CUSTOM_SCRIPT_FILE
+        echo "$TOOLBOX_PATH/scripts/EmulationStation/Randomize.sh \$1 2>&1 | recallog &" >> $CUSTOM_SCRIPT_FILE
+#        echo "set +x" >> $CUSTOM_SCRIPT_FILE
+        echo "# Fin modification RecaToolBox" >> $CUSTOM_SCRIPT_FILE
+    else
+        echo 'Le fichier custom.sh est déjà patché'
+    fi
 }
 
 HACK_VIDEO_TIME()
 {
     # On vérifie d'abord si le script a déjà été patché
     ALREADY_PATCHED=`grep \\\$VIDEO_LENGTH $VIDEO_TIME_PATH | wc -l`
-    # On crée le répertoire de persistence de la longeur de video s'il n'existe pas déja
+
+    # On crée le répertoire de persistence
     if [ ! -d $RECATOOLBOX_RESOURCE_DIR ]; then
         mkdir $RECATOOLBOX_RESOURCE_DIR
     fi
     if [ ! -d $RECATOOLBOX_RESOURCE_DIR/videos ]; then
         mkdir $RECATOOLBOX_RESOURCE_DIR/videos
     fi
+
     if [ "$ALREADY_PATCHED" == "0" ];
     then
         echo "Le fichier n'est pas encore patché, on procède"
@@ -135,7 +223,8 @@ HACK_VIDEO_TIME()
 
         echo "VIDEO_LENGTH=0" > $RECATOOLBOX_RESOURCE_DIR/videoLength.sh
         chmod +x $RECATOOLBOX_RESOURCE_DIR/videoLength.sh
-        # On backup le fichier
+
+        # On duplique le fichier S02Splash avant de travailler dessus
         cp $VIDEO_TIME_PATH $VIDEO_TIME_PATH.original
         chmod -x $VIDEO_TIME_PATH.original
         cat > $VIDEO_TIME_PATH.tmp << "EOT"
@@ -145,9 +234,16 @@ source /recalbox/system/resources/splash/RecaToolBox/videoLength.sh
 EOT
         cat $VIDEO_TIME_PATH.original >> $VIDEO_TIME_PATH.tmp
         sed '/Stop the video when/{n;s/.*/if [[ \$? -eq \$VIDEO_LENGTH ]]; then/}' $VIDEO_TIME_PATH.tmp > $VIDEO_TIME_PATH
+        rm $VIDEO_TIME_PATH.tmp
 
-        cp $TOOLBOX_PATH/scripts/EmulationStation/Randomize.sh /etc/init.d/S02randomize
-        chmod +x /etc/init.d/S02randomize
+        # On déplace le fichier d'origine dans /recalbox/system/resources/splash/RecaToolBox
+        mv $VIDEO_TIME_PATH.original $RECATOOLBOX_RESOURCE_DIR/S02splash.original
+
+
+        #cp $TOOLBOX_PATH/scripts/EmulationStation/Randomize.sh /etc/init.d/S02randomize
+        #chmod +x /etc/init.d/S02randomize
+
+
     else
          echo "Rien à faire, le fichier est déjà patché"
     fi
@@ -155,11 +251,20 @@ EOT
 
 INIT_SPLASH_FILES()
 {
-    if [ -f $VIDEO_INTRO_PATH/recalboxintro.mp4.original ]; then
-        cp $VIDEO_INTRO_PATH/recalboxintro.mp4.original $RECATOOLBOX_RESOURCE_DIR/videos/recalboxintro.mp4
-    else
+    if [ ! -d $RECATOOLBOX_RESOURCE_DIR ]; then
+        echo "Procédez d'abord à l'installation du patch"
+        echo "Appuyez sur Entrée pour retourner au menu"
+        read dummy
+        return 0;
+    fi
+
+    #On effectue une sauvegarde de la video originale et on l'ajoute aux vidéos disponibles
+    if [ ! -f $SPLASH_PATH/recalboxintro.mp4.original ]; then
+        cp $SPLASH_PATH/recalboxintro.mp4 $SPLASH_PATH/recalboxintro.mp4.original
         cp $SPLASH_PATH/recalboxintro.mp4 $RECATOOLBOX_RESOURCE_DIR/videos/recalboxintro.mp4
     fi
+
+    #On balaye ensuite les vidéos précédemment telechargées
     for filename in $VIDEO_INTRO_PATH/*/*.mp4
     do
         FILE_BASENAME=${filename##*/}
@@ -174,9 +279,9 @@ INIT_SPLASH_FILES()
             cp $filename.length $RECATOOLBOX_RESOURCE_DIR/videos/$FILE_BASENAME.length
         fi
     done
-    cp $TOOLBOX_PATH/scripts/EmulationStation/Randomize.sh /etc/init.d/S02randomize
 }
 
+################## Fin Randomizer ############################
 
 #################### Menu pour changer la video #################
 SCAN_VIDEO()
@@ -258,7 +363,7 @@ do
 1) Télécharger une vidéo d'intro
 2) Choisir directement une vidéo déposée dans le partage Recalbox
 3) Modifier la durée de la vidéo d'intro
-4) Mettre en place le hack video
+4) Mettre en place le tirage au sort de video au démarrage
 
 0) Retour au menu principal
 
@@ -275,7 +380,7 @@ Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
     [1]*) DL_VIDEO;;
     [2]*) SCAN_VIDEO;;
 	[3]*) VIDEO_TIME;;
-	[4]*) JEY_LAUNCH;;
+	[4]*) RANDOMIZER_MENU;;
 
     [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
     *)      echo "Choisissez une option affichée dans le menu:" ;;
