@@ -1,7 +1,8 @@
 #!/bin/bash
 # Script permettant de télécharger les BIOS
-# http://www.geekmag.fr/recatoolbox/ pour la version mise à jour
-# 10/12/2017
+# Source: http://www.geekmag.fr
+# Script by Eric78 & Jey2K
+# 16/12/2017
 
 ###########   déclaration des variables ####################
 
@@ -119,7 +120,7 @@ do
     FILE_BASENAME=${filename##*/}
 	FILE_PATH=${filename%/*}
     source $BIOS_DL/$filename
-    # Ici la variable ARCH_ROMS_NAME devrait être complétée avec le nom de l'archive à utiliser
+    # Ici la variable ARCH_BIOS_NAME devrait être complétée avec le nom de l'archive à utiliser
     # Si elle ne l'est pas, on sort
     if [ -z $ARCH_BIOS_NAME ]; then
         continue
@@ -154,11 +155,52 @@ do
 	ls -lh $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME
 	echo "Description du pack $BIOS_NAME en cours de copie"
 	echo $BIOS_DESCRIPTION
-    if [ -n "$BIOS_FOLDER" ]; then
-        tar xvf $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME -C $BIOS_FOLDER
-    else
-        tar xvf $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME -C $BIOS_REP
-    fi
+
+	if [ -n "$BIOS_FOLDER" ]; then
+		
+		#Test de l extension de l archive pour déterminer quelle commande passer pour décompresser
+		case "$ARCH_BIOS_NAME" in
+			*.tar)
+				echo "Décompression du TAR"	
+					tar xvf $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME -C $BIOS_FOLDER;;
+					
+			*.tar.gz|*.tgz) 
+				echo "Décompression du TGZ"	    
+					tar xzvf $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME -C $BIOS_FOLDER;;
+			*.gz)  
+				echo "Décompression du GZ"	
+					gunzip -c $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME > $BIOS_FOLDER/$ARCH_BIOS_NAME;;
+			*.zip) 
+				echo "Décompression du ZIP"	    
+					unzip $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME -d $BIOS_FOLDER;;
+			*.*)
+				echo "Type d'archive non supportée: Recalbox ne gère pas les .rar ni les .bz2" ; exit 1;;		
+		esac
+			
+				
+		else
+			
+		#Même test pour l'autre arborescence
+		
+			case "$ARCH_BIOS_NAME" in
+			*.tar)
+				echo "Archive au format TAR supporté"	
+					tar xvf $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME -C $BIOS_REP;;
+			
+			*.tar.gz|*.tgz) 
+				echo "Archive au format tar.gz et tgz supporté"	    
+					tar xzvf $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME -C $BIOS_REP;;
+			*.gz)  
+				echo "Archive compressée en.gz supporté"	
+					gunzip -c $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME > $BIOS_REP/$ARCH_BIOS_NAME;;
+			*.zip) 
+				echo "Archive ZIP supporté OK"	    
+					unzip $BIOS_PATH/$FILE_PATH/$ARCH_BIOS_NAME -d $BIOS_REP;;
+			*.*)
+			echo "Type d'archive non supportée: Recalbox ne gère pas les .rar ni les .bz2" ; exit 1;;
+		esac
+			
+	fi
 
 	echo ""
 	echo "Les BIOS ont bien été installés"
@@ -185,7 +227,7 @@ do
  1) Télécharger des BIOS
  2) Installer des BIOS
 
- R)  Retour au menu principal
+ 0)  Retour au menu principal
 
  Tapez le chiffre correspondant à votre choix
  puis appuyez sur Entrée"
@@ -201,7 +243,7 @@ do
     [1]*) DOWNLOAD_BIOS;;
     [2]*) DEPLOY_BIOS;;
 
-    [Rr]*)  echo "Retour au menu précédent" ; exit 0 ;;
+    [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
     *)      echo "Choisissez une option affichée dans le menu:" ;;
   esac
   echo ""
