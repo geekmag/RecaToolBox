@@ -1,0 +1,13 @@
+{
+  "name": "RecaNodeRoolBox",
+  "version": "0.1.0",
+  "main": "RecaNode.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install & browserify RecaNode.js -o RecaNodeProd.js",
+    "start": "node RecaNode.js"
+  },
+  "dependencies": {
+    "webtorrent": "~0.98.20"
+  }
+}
