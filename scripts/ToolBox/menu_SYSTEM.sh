@@ -23,7 +23,7 @@ MOVE_ROMS()
 
 BACKUP()
 {
- echo "Version beta: cette fonction n'est pas encore active"
+$TOOLBOX_PATH/scripts/SYSTEM/SD_to_USB_backup.sh
 }
 
 REBOOT()
@@ -47,8 +47,8 @@ do
 
 1 )  Monter un partage réseau (NAS ou PC)
 2 )  Charger un fichier IMG
-3 )  Déplacer les ROMS (USB/SD)
-4 )  Faire un backup
+3 )  Copier les ROMS (USB -> SD)
+4 )  Faire une sauvegarde du /recalbox/share (SD -> USB) 
 
 5 )  Rebooter Recalbox
 6 )  Arrêter le système
