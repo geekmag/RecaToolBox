@@ -11,7 +11,11 @@ Jey2k:
 - Fonctionnalité de vidéo aléatoire au démarrage
 
 Eric (build du 14/12/17)
-Le numéro de version de RecaTooBox a été déporté dans le menu "Info et mise à jour" ou l'on peut maintenant trouver d'autres détails tel que le numéro de Build de Recalbox, l'adresse IP, le nom du thème en cours d'utilisation, l'affichage de la température.
+ - Ajout d'un assistant pour monter un NAS
+ - Ajout d'un menu pour effectuer la sauvegarde /recalbox/share : SD -> USB
+-  Ajout d'une option pour monter des ISO/IMG de carte Recalbox préconfigurées
+ - Le numéro de version de RecaTooBox a été déporté dans le menu "Info et mise à jour" 
+ - Dans le menu info, il est possible d'afficher le numéro de Build de Recalbox, l'adresse IP, le nom du thème en cours d'utilisation, l'affichage de la température (Raspberry uniquement).
 
 Ajout d'une ébauche de documentation du principe de fonctionnement des dépôts mise en place par Jey2k:
 https://github.com/geekmag/RecaToolBox/wiki/Cr%C3%A9er-un-d%C3%A9pot:-mettre-vos-cr%C3%A9ations-%C3%A0-disposition-de-la-communaut%C3%A9-des-gamers
