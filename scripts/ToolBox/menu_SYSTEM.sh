@@ -36,6 +36,11 @@ SHUTDOWN()
  $TOOLBOX_PATH/scripts/SYSTEM/Shutdown.sh
 }
 
+UNINSTALL()
+{
+ $TOOLBOX_PATH/scripts/uninstall.sh
+}
+
 while true
 do
   #..........................................................................
@@ -47,11 +52,12 @@ do
 
 1 )  Monter un partage réseau (NAS ou PC)
 2 )  Charger un fichier IMG
-3 )  Copier les ROMS (USB -> SD)
-4 )  Faire une sauvegarde du /recalbox/share (SD -> USB) 
+3 )  Déplacer les ROMS (USB/SD)
+4 )  Faire un backup
+5 )  Désinstaller RecaToolBox
 
-5 )  Rebooter Recalbox
-6 )  Arrêter le système
+6 )  Rebooter Recalbox
+7 )  Arrêter le système
 
 0)  Retour au menu principal
 
@@ -69,8 +75,9 @@ Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
 	[2]*) LOAD_IMG;;
 	[3]*) MOVE_ROMS;;
 	[4]*) BACKUP;;
-	[5]*) REBOOT;;
-	[6]*) SHUTDOWN;;
+	[5]*) UNINSTALL;;
+	[6]*) REBOOT;;
+	[7]*) SHUTDOWN;
 
     [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
     *)      echo "Choisissez une option affichee dans le menu:" ;;
