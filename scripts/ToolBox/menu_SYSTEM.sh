@@ -3,7 +3,7 @@
 #Menu pour gérer les options system
 #Autheur: Eric (GeekMag.fr)
 # Créé le: 03/12/2017
-# Dernière MAJ: 17/12/2017
+# Dernière MAJ: 18/12/2017
 
 MOUNT_NAS()
 {
@@ -16,7 +16,7 @@ echo "Vesion beta: cette fonction n'est pas encore active"
 #$TOOLBOX_PATH/scripts/SYSTEM/mount_IMG.sh
 }
 
-MOVE_ROMS()
+RESTORE()
 {
  echo "Version beta: cette fonction n'est pas encore active"
 }
@@ -52,8 +52,8 @@ do
 
 1 )  Monter un partage réseau (NAS ou PC)
 2 )  Charger un fichier IMG
-3 )  Déplacer les ROMS (USB/SD)
-4 )  Faire un backup
+3 )  Faire une sauvegarde (SD -> USB)
+4 )  Restaurer une sauvegarde (USB -> SD)
 5 )  Désinstaller RecaToolBox
 
 6 )  Rebooter Recalbox
@@ -73,8 +73,8 @@ Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
 
 	[1]*) MOUNT_NAS;;
 	[2]*) LOAD_IMG;;
-	[3]*) MOVE_ROMS;;
-	[4]*) BACKUP;;
+	[3]*) BACKUP;;
+	[4]*) RESTORE;;
 	[5]*) UNINSTALL;;
 	[6]*) REBOOT;;
 	[7]*) SHUTDOWN;;
