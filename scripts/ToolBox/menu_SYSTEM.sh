@@ -77,7 +77,7 @@ Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
 	[4]*) BACKUP;;
 	[5]*) UNINSTALL;;
 	[6]*) REBOOT;;
-	[7]*) SHUTDOWN;
+	[7]*) SHUTDOWN;;
 
     [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
     *)      echo "Choisissez une option affichee dans le menu:" ;;
