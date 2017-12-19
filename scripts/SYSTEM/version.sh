@@ -20,6 +20,8 @@ echo "RecaToolBox - version $TOOLBOX_VERSION"
 echo ""
 #Appel du script remontant la température
 $TOOLBOX_PATH/scripts/SYSTEM/temperature.sh
+#Récupère la fréquence du CPU
+$TOOLBOX_PATH/scripts/SYSTEM/Vitesse_CPU.sh
 #Récupère l'adresse IP
 $TOOLBOX_PATH/scripts/SYSTEM/show_IP.sh
 echo "Vous avez $FREESPACE d'espace libre"
