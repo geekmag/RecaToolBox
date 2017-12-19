@@ -4,10 +4,19 @@
   "main": "RecaNode.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm install & browserify RecaNode.js -o RecaNodeProd.js",
+    "build": "webpack",
     "start": "node RecaNode.js"
   },
   "dependencies": {
-    "webtorrent": "~0.98.20"
+    "json2xls": "^0.1.2",
+    "msexcel-builder": "0.0.2",
+    "webtorrent": "~0.98.20",
+    "xml2js": "^0.4.19"
+  },
+  "bundledDependencies": [
+    "webtorrent"
+  ],
+  "devDependencies": {
+    "webpack": "^3.10.0"
   }
 }
