@@ -18,7 +18,7 @@ echo "Vesion beta: cette fonction n'est pas encore active"
 
 RESTORE()
 {
- echo "Version beta: cette fonction n'est pas encore active"
+$TOOLBOX_PATH/scripts/SYSTEM/USB_to_SD.sh
 }
 
 BACKUP()
