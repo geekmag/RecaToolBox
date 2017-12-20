@@ -23,7 +23,7 @@ if (process.argv[2]=='testDownload') {
     myDownload.downloadMagnet(myMagnet,"outputhPath");
 } else if (process.argv[2]=='gamesList') {
     var gamesList = new GamesList();
-    gamesList.parseGames();
+    gamesList.parseAllGames();
     //console.log('Fonction pas encore implémentée');
 } else {
     console.error("Action non reconnue:", process.argv[2]);

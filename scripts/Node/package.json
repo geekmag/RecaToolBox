@@ -8,14 +8,13 @@
     "start": "node RecaNode.js"
   },
   "dependencies": {
-    "json2xls": "^0.1.2",
+    "exceljs": "~0.4.14",
     "msexcel-builder": "0.0.2",
+    "utf-8-validate": "^4.0.0",
     "webtorrent": "~0.98.20",
+    "xlsx-populate": "^1.11.0",
     "xml2js": "^0.4.19"
   },
-  "bundledDependencies": [
-    "webtorrent"
-  ],
   "devDependencies": {
     "webpack": "^3.10.0"
   }
