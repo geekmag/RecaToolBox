@@ -29,7 +29,7 @@ if (process.argv[2]=='testDownload') {
     console.error("Action non reconnue:", process.argv[2]);
 }
 
-console.log("Sortie du programme");
+//console.log("Sortie du programme");
 
 //downloadModule.direBonjour();
 
