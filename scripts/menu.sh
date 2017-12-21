@@ -85,6 +85,11 @@ SWITCH_Ordre_SYSTEM()
  $REP_SCRIPTS/EmulationStation/SWITCH_Ordre_SYSTEM.sh
 }
 
+GAME_LIST()
+{ 
+ $REP_SCRIPTS/ToolBox/liste_jeux.sh
+}
+
 #=========================Début_Menu_Utilisateur=================================
 menu_user()
 {
@@ -136,12 +141,14 @@ do
 clear
 cat << "EOT"
 -------------------------------------
-        MENU TELECHARGEMENT
+        MENU JEUX
 -------------------------------------
 
-1 )  Télécharger des ROMS
-2 )  Télécharger des BIOS
+1 )  Télécharger / Installer des ROMS
+2 )  Télécharger / Installer des BIOS
 3 )  Configurer Steam Link (Moonlight)
+
+4 )  Générer une liste des jeux
 
 0 )  Retour au menu principal
 q )  Quitter le menu
@@ -159,6 +166,8 @@ case "$answer" in
 	   DL_BIOS;;
 [3]*)  echo "Chargement de l'assistant de configuration Steam "
 	   STEAM;;
+[4]*)  echo "Veuillez patienter une liste des jeux est en cours de génération"
+	   GAME_LIST;;	   
 [0]*) menu_main  ;;
 [Qq]*)  echo "Sortie du menu telechargement" ; exit 0 ;;
 *)      echo "Merci de sélectionner une option valide" ;;

@@ -30,13 +30,13 @@ cd $THEMES_DL
 dos2unix $THEMES_DL/*/*.txt
 
 # invite de commande pour choisir l'option du select
-PS3="Entrez le numéro correspondant à nom du thème que vous voulez télécharger ou tapez 'retour' pour sortir du menu: "
+PS3="Entrez le numéro correspondant à nom du thème que vous voulez télécharger ou tapez '0' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir un pack de ROMS en générant une liste de tous les fichiers .txt contenant les URL de téléchargement
 select filename in */*.txt
 do
-    # quitte la boucle si l'utilisater met 'retour'
-    if [[ "$REPLY" == retour ]]; then break; fi
+    # quitte la boucle si l'utilisater met '0'
+    if [[ "$REPLY" == 0 ]]; then break; fi
 
     # Affiche un message d'erreur si choix invalide et boucle pour demander à nouveau
     if [[ "$filename" == "" ]]
@@ -136,13 +136,13 @@ do
 done
 
 # invite de commande pour choisir l'option du select
-PS3="Entrez le numéro correspondant au thème que vous voulez ajouter à EmulationStation ou tapez 'retour' pour sortir du menu: "
+PS3="Entrez le numéro correspondant au thème que vous voulez ajouter à EmulationStation ou tapez '0' pour sortir du menu: "
 
 # Permet à l'utilisateur de choisir une archive tar en générant une liste de tous les fichiers *.tar
 select filename in ${AVAILABLE_THEMES[@]}
 do
-    # quitte la boucle si l'utilisater met 'retour'
-    if [[ "$REPLY" == retour ]]; then break; fi
+    # quitte la boucle si l'utilisater met '0'
+    if [[ "$REPLY" == 0 ]]; then break; fi
 
     # Affiche un message d'erreur si choix invalide et boucle pour demander à nouveau
     if [[ "$filename" == "" ]]
@@ -161,14 +161,56 @@ do
 	echo $THEME_DESCRIPTION
 
     # Si le répertoire de destination est fourni dans le fichier de configuration, on l'utilise
-    # dans le cas contraire, on utlise le path par défaut
-    if [ -n "$THEME_FOLDER" ]; then
-        tar xvf $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME -C $THEME_FOLDER
-    else
-        tar xvf $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME -C $THEME_REP
+    # dans le cas contraire, on utilise le path par défaut
+
+	if [ -n "$THEME_FOLDER" ]; then
+		
+		#Test de l extension de l archive pour déterminer quelle commande passer pour décompresser
+		case "$ARCH_THEME_NAME" in
+			*.tar)
+				echo "Décompression du TAR"	
+					tar xvf $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME -C $THEME_FOLDER;;
+			
+			*.tar.gz|*.tgz) 
+				echo "Décompression du TGZ"	    
+					tar xzvf $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -C $ROMS_FOLDER;;
+			*.gz)  
+				echo "Décompression du GZ"	
+					gunzip -c $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME > $ROMS_FOLDER/$ARCH_ROMS_NAME;;
+			*.zip) 
+				echo "Décompression du ZIP"	    
+					unzip $ROMS_PATH/$FILE_PATH/$ARCH_ROMS_NAME -d $ROMS_FOLDER;;
+			*.*)
+				echo "Type d'archive non supportée: Recalbox ne gère pas les .rar ni les .bz2" ; exit 1;;		
+		esac
+			
+				
+		else
+			
+		#Même test pour l'autre arborescence
+		
+			case "$ARCH_THEME_NAME" in
+			*.tar)
+				echo "Archive au format TAR supporté"	
+					tar xvf $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME -C $THEME_REP;;
+			
+			*.tar.gz|*.tgz) 
+				echo "Archive au format tar.gz et tgz supporté"	    
+					tar xzvf $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME -C $THEME_REP;;
+			*.gz)  
+				echo "Archive compressée en.gz supporté"	
+					gunzip -c $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME > $THEME_REP/$ARCH_THEME_NAME;;
+			*.zip) 
+				echo "Archive ZIP supporté OK"	    
+					unzip $THEME_PATH/$FILE_PATH/$ARCH_THEME_NAME -d $THEME_REP;;
+			*.*)
+			echo "Type d'archive non supportée: Recalbox ne gère pas les .rar ni les .bz2" ; exit 1;;
+		esac
+		
     fi
-	echo "Le thème a été installé: allez dans l'interface EmulationStation pour le sélectionner"
 	
+	echo "Le thème a été installé: allez dans l'interface EmulationStation pour le sélectionner"
+		
     # Il y aura un nouveau choix de proposé sauf si on stop la boucle
     break
 done
@@ -189,7 +231,7 @@ do
  1) Télécharger un thème pour EmulationStation
  2) Décompresser un thème
 
- R)  Retour au menu principal
+ 0)  Retour au menu principal
 
  Tapez le chiffre correspondant à votre choix
  puis appuyer sur Entrée"
@@ -205,7 +247,7 @@ do
     [1]*) DOWNLOAD_THEMES;;
     [2]*) DEPLOY_THEMES;;
 
-    [Rr]*)  echo "Retour au menu précédent" ; exit 0 ;;
+    [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
     *)      echo "Choisissez une option affichée dans le menu:" ;;
   esac
   echo ""
