@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 ROOT_PATH=`pwd`
 echo "Nous sommes dans le répertoire $ROOT_PATH"
+
+echo "Nous allons packager le NodeJs"
+cd Node
+echo "Nous sommes maintenant dans le répertoire `pwd`"
+#npm install
+npm run-script build
+cd $ROOT_PATH
+
 if [ ! -d ./dist ]; then
     mkdir dist
 fi
@@ -23,6 +31,9 @@ dos2unix install/sources/ToolBox/scripts/*/*.sh
 chmod +x install/sources/ToolBox/scripts/*/*.sh
 cp -R $ROOT_PATH/fichiers/Source/Download install/sources
 dos2unix $ROOT_PATH/fichiers/Source/Download/Repository/source/*.txt
+
+mkdir install/sources/ToolBox/RecaNode
+cp $ROOT_PATH/Node/dist/RecaNode.js install/sources/ToolBox/RecaNode
 
 cp $ROOT_PATH/VERSION install/sources/ToolBox
 dos2unix install/sources/ToolBox/VERSION

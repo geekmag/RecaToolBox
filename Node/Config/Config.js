@@ -14,7 +14,7 @@ module.exports = class Config {
             this.configPath = {
                 RECATOOLBOX_DIR: '/recalbox/share/RecaToolBox',
                 ROMS_DIR: '/recalbox/share/roms',
-                GAME_OUTPUT_PATH: '/recalbox/share/Jey'
+                GAME_OUTPUT_PATH: '/recalbox/share/roms/'
             };
         };
 

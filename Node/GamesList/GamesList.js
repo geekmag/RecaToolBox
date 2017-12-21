@@ -49,7 +49,9 @@ module.exports = class GamesList{
                     });
                     workbook.deleteSheet("Sheet1");
                     // Write to file.
-                    return workbook.toFileAsync(path.join(this.config.getPaths().GAME_OUTPUT_PATH ,"out.xlsx"));
+                    var d = new Date();
+                    var now = d.getFullYear()+'-'+d.getMonth()+'-'+d.getDay();
+                    return workbook.toFileAsync(path.join(this.config.getPaths().GAME_OUTPUT_PATH ,"ListeJeux" + now + ".xlsx"));
                 });
         }
     };
@@ -97,10 +99,25 @@ module.exports = class GamesList{
                                 console.log("Fichier ",consolePath, "-", gameShortName, " parsé mais non présent");
                             }
 
+                            let myPath = '';
+                            if (game.path && game.path[0] && game.path[0].length>2) {
+                                myPath=game.path[0].substr(2);
+                            }
+
+                            let myDesc='';
+                            if (game.desc && game.desc[0]) {
+                                myDesc=game.desc[0];
+                            }
+
+                            let myName='';
+                            if(game.name&&game.name[0]){
+                                myName=game.name[0];
+                            }
+
                             var myGame = {
-                                name: game.name[0],
-                                desc: game.desc[0],
-                                file: game.path[0].substring(2),
+                                name: myName,
+                                desc: myDesc,
+                                file: myPath,
                                 parsed: true,
                                 fileFound: fileFound
                             };
