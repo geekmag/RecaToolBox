@@ -57,3 +57,5 @@ freeline_project_description.json
 
 # Répertoire de build
 dist/
+/Node/node_modules/
+/Node/dist/

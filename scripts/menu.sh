@@ -90,6 +90,11 @@ GAME_LIST()
  $REP_SCRIPTS/ToolBox/liste_jeux.sh
 }
 
+GAME_LIST_EXCEL()
+{
+    node $TOOLBOX_PATH/RecaNode/RecaNode.js gamesList
+}
+
 #=========================Début_Menu_Utilisateur=================================
 menu_user()
 {
@@ -133,6 +138,42 @@ done
 }
 #=============================Fin_Menu_Utilisateur================================
 
+menu_GAME_LIST()
+{
+while true
+do
+clear
+cat << "EOT"
+-------------------------------------
+        MENU LISTE DE JEUX
+-------------------------------------
+
+1 )  Extraire au format HTML
+2 )  Extraire au format Excel
+
+0 )  Retour au menu principal
+q )  Quitter le menu
+
+As-tu fais ton choix ?
+
+EOT
+
+read answer
+clear
+case "$answer" in
+[1]*)  echo "Veuillez patienter. La liste des jeux est en cours de génération"
+	   GAME_LIST;;
+[2]*)  echo "Veuillez patienter. La liste des jeux est en cours de génération"
+        GAME_LIST_EXCEL;;
+[0]*) menu_main  ;;
+[Qq]*)  echo "Sortie du menu de sélection du format" ; exit 0 ;;
+*)      echo "Merci de sélectionner une option valide" ;;
+esac
+echo ""
+echo "Appuies sur Entrer pour revenir au menu précédent"
+read dummy
+done
+}
 #=============================Debut_Menu_DONWLOAD=================================
 menu_DL()
 {
@@ -167,7 +208,7 @@ case "$answer" in
 [3]*)  echo "Chargement de l'assistant de configuration Steam "
 	   STEAM;;
 [4]*)  echo "Veuillez patienter une liste des jeux est en cours de génération"
-	   GAME_LIST;;	   
+	   menu_GAME_LIST;;
 [0]*) menu_main  ;;
 [Qq]*)  echo "Sortie du menu telechargement" ; exit 0 ;;
 *)      echo "Merci de sélectionner une option valide" ;;

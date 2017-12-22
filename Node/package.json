@@ -1,0 +1,24 @@
+{
+  "name": "RecaNodeRoolBox",
+  "version": "0.1.0",
+  "main": "RecaNode.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "node RecaNode.js"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "exceljs": "~0.4.14",
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
+    "msexcel-builder": "0.0.2",
+    "utf-8-validate": "^4.0.0",
+    "webtorrent": "~0.98.20",
+    "xlsx-populate": "^1.11.0",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  }
+}
