@@ -88,11 +88,11 @@ do
 			if [ $TYPE_LINK = HTTP ]
 				then
 					echo "Lancement du téléchargement via HTTP"
-					wget http://$DOWNLOAD_URL_THEME
+					wget "http://$DOWNLOAD_URL_THEME" -O $ARCH_THEME_NAME
 			elif [ $TYPE_LINK = FTP ]
 				then
 					echo "Lancement du téléchargement via FTP"
-					wget --user=$FTP_LOGIN --password=$FTP_PASSWORD ftp://$DOWNLOAD_URL_THEME
+					wget --user=$FTP_LOGIN --password=$FTP_PASSWORD ftp://$DOWNLOAD_URL_THEME -o $ARCH_THEME_NAME
 			else
 				echo "Le type de lien n'est pas configuré, téléchargement impossible"
 			fi

@@ -11,4 +11,4 @@ variable_theme=$(sed -rn '/ThemeSet/s/.*value="([^"]+)".*/\1/p' $ES_SETTINGS_PAT
 #Passage du résultat en variable
 NOM_THEME="$variable_theme"
 #Affiche le nom du theme utilisé
-echo "Vous utilisé le thème:" $NOM_THEME
+echo "Vous utilisez le thème:" $NOM_THEME

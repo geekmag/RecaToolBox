@@ -87,11 +87,11 @@ do
 			if [ $TYPE_LINK = HTTP ]
 				then
 					echo "Lancement du téléchargement via HTTP"
-					wget http://$DOWNLOAD_URL_COLLECTION
+					wget "http://$DOWNLOAD_URL_COLLECTION" -O $ARCH_ROMS_NAME
 			elif [ $TYPE_LINK = FTP ]
 				then
 					echo "Lancement du téléchargement via FTP"
-					wget --user=$FTP_LOGIN --password=$FTP_PASSWORD ftp://$DOWNLOAD_URL_COLLECTION
+					wget --user=$FTP_LOGIN --password=$FTP_PASSWORD "ftp://$DOWNLOAD_URL_COLLECTION" -O $ARCH_ROMS_NAME
 			else
 				echo "Le type de lien n'est pas configuré, téléchargement impossible"
 			fi
