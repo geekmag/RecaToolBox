@@ -16,6 +16,12 @@ DEPOTS_DL=$DEPOTS_PATH/source
 REPOSITORY_PATH=$TOOLBOX_DOWNLOAD_PATH/Repository
 REPOSITORY_DL=$REPOSITORY_PATH/source
 
+REP_SCRIPTS=$TOOLBOX_PATH/scripts
+
+LAST_SYNC_PATH=$REPOSITORY_PATH/lastSync.txt
+
+MAX_UPDATE_OLD=10
+
 #Test l'espace libre sur le FS
 FREESPACE=$(df -h /recalbox/share | awk '{print $4}' | tail -n 1)
 
@@ -158,6 +164,7 @@ do
     UPDATE_REPOSITORY
 
 done
+date +%s > $LAST_SYNC_PATH
 echo "La liste des dépots a été mise à jour."
 return 0
 
@@ -176,40 +183,95 @@ LIST_GAMES()
  read -p "Appuyez sur une touche pour continuer"
 }
 
-while true
-do
-  #..........................................................................
-  # affichage Info + recherche MAJ
-  #..........................................................................
-  clear
-  $TOOLBOX_PATH/scripts/SYSTEM/version.sh
-  echo "
+CHECK_AND_UPDATE()
+{
+ if [ ! -f $LAST_SYNC_PATH ]; then
+     while true
+        clear
+        $TOOLBOX_PATH/scripts/ToolBox/banner.sh
+        do
+        echo "Nous n'avons pas retrouvé trace de la dernière synchronisation.
+Voulez-vous mettre à jour les sources de téléchargement maintenant? (o/n)"
+        read answer
+        clear
+        case "$answer" in
+        [oO]*) MAJ_SOURCE_DL;exit 0;;
+        [nN]*) exit 0;;
+        *) echo "Choisissez Oui ou Non" ;
+      esac
+    #  echo ""
+    #  echo "Appuyez sur Entrée pour retourner au menu"
+    #  read dummy
+    done
+ else
+    MY_DATE=`cat $LAST_SYNC_PATH`
+    echo "Trouvé dans le fichier:"
+    echo "$MY_DATE"
+    #echo "Date de dernière synchro:"
+    #echo `date --date="$MY_DATE" +%s`
+    ACTUAL_DATE=`date +%s`
+    echo "Actual Date:"
+    echo "$ACTUAL_DATE"
+    echo "Age de la synchro:"
+    AGE_SYNCHRO=$(( ($ACTUAL_DATE - $MY_DATE )/(60*60*24) ))
+    if [ $AGE_SYNCHRO -gt $MAX_UPDATE_OLD ]; then
+        clear
+        $TOOLBOX_PATH/scripts/ToolBox/banner.sh
+        while true
+        do
+            echo "Vous n'avez à priori pas mis à jour les sources de téléchargement depuis $AGE_SYNCHRO jours
+Voulez-vous mettre à jour maintenant? (o/n)"
+            read answer
+            clear
+            case "$answer" in
+                [oO]*) MAJ_SOURCE_DL;exit 0;;
+                [nN]*) exit 0;;
+                *) echo "Choisissez Oui ou Non" ;
+            esac
+        done
+    fi
+ fi
+}
+
+DISPLAY_MENU()
+{
+    while true
+    do
+      #..........................................................................
+      # affichage Info + recherche MAJ
+      #..........................................................................
+      clear
+      $TOOLBOX_PATH/scripts/SYSTEM/version.sh
+      echo "
 
 
-1) Mettre à jour la RecalToolBox
-2) Mettre à jour la sources de téléchargement (Roms / Themes...)
-3) Générer une liste des jeux installés
+    1) Mettre à jour la RecalToolBox
+    2) Mettre à jour la sources de téléchargement (Roms / Themes...)
+    3) Générer une liste des jeux installés
 
-0) Retour au menu principal
+    0) Retour au menu principal
 
-Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
+    Tapez le chiffre correspondant à votre choix puis appuyer sur Entrée"
 
-  #..........................................................................
-  # Appel des fonctions
-  #..........................................................................
-  read answer
-  clear
+      #..........................................................................
+      # Appel des fonctions
+      #..........................................................................
+      read answer
+      clear
 
-  case "$answer" in
+      case "$answer" in
 
-    [1]*) DL_MAJ_TOOLBOX;;
-    [2]*) MAJ_SOURCE_DL;;
-	[3]*) LIST_GAMES;;
+        [1]*) DL_MAJ_TOOLBOX;;
+        [2]*) MAJ_SOURCE_DL;;
+        [3]*) LIST_GAMES;;
 
-    [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
-    *)      echo "Choisissez une option affichée dans le menu:" ;;
-  esac
-#  echo ""
-#  echo "Appuyez sur Entrée pour retourner au menu"
-#  read dummy
-done
+        [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
+        *)      echo "Choisissez une option affichée dans le menu:" ;;
+      esac
+    #  echo ""
+    #  echo "Appuyez sur Entrée pour retourner au menu"
+    #  read dummy
+    done
+}
+[ $# -eq 0 ] && DISPLAY_MENU
+[ "$1" == "checkAndUpdate" ] && CHECK_AND_UPDATE

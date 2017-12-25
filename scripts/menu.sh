@@ -39,6 +39,10 @@ APROPOS()
  $REP_SCRIPTS/ToolBox/menu_INFO_MAJ.sh
 }
 
+CHECK_AND_UPDATE() {
+    $REP_SCRIPTS/ToolBox/menu_INFO_MAJ.sh checkAndUpdate
+}
+
 STEAM()
 {
  $REP_SCRIPTS/EmulationStation/moonlight.sh
@@ -321,12 +325,13 @@ echo $1
 
 # common
 [ $# -ge 2 ] && usage
-[ $# -eq 0 ] && menu_main
+[ $# -eq 0 ] && CHECK_AND_UPDATE && menu_main
 
 # shortcuts
 [ "$1" == "user" ] && menu_user
 [ "$1" == "dl" ] && menu_DL
 [ "$1" == "custom" ] && menu_CUSTOM
 [ "$1" == "about" ] && APROPOS
+[ "$1" == "checkAndUpdate" ] && CHECK_AND_UPDATE
 
 echo "Accès direct à ce sous menu non trouvé"
