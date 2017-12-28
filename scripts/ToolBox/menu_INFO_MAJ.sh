@@ -169,18 +169,18 @@ echo "La liste des dépots a été mise à jour."
 return 0
 
 }
-#################### Fin de la fonction téléchargement de nouvelels sources #################
+#################### Fin de la fonction téléchargement de nouvelles sources #################
 
-#################### Début modif durée vidéo ##################################
-LIST_GAMES()
+
+ABOUT()
 {
- echo "Une liste de tous les jeux installés est en cours de création"
- ls -R /recalbox/share/roms > $TOOLBOX_HOME/liste_Jeux.txt
- clear
- echo "La liste a été créée dans le partage réseau ;) "
- ls -lh $TOOLBOX_HOME/liste_Jeux.txt
- 
- read -p "Appuyez sur une touche pour continuer"
+    clear
+    $TOOLBOX_PATH/scripts/ToolBox/banner.sh
+	echo
+	echo -e "RecaToolBox a été initialement créé par Eric de \033[32mGeekMag.fr\033[0m"
+	echo -e "L'outil a ensuite été très largement amélioré par Jérémy alias \033[32mjey2k.fr\033[0m"
+ 	echo
+	read -p "Appuyez sur une touche pour revenir à l'écran précédent"
 }
 
 CHECK_AND_UPDATE()
@@ -247,7 +247,8 @@ DISPLAY_MENU()
 
     1) Mettre à jour la RecalToolBox
     2) Mettre à jour la sources de téléchargement (Roms / Themes...)
-    3) Générer une liste des jeux installés
+    
+    3) A propos de RecalToolBox
 
     0) Retour au menu principal
 
@@ -263,7 +264,7 @@ DISPLAY_MENU()
 
         [1]*) DL_MAJ_TOOLBOX;;
         [2]*) MAJ_SOURCE_DL;;
-        [3]*) LIST_GAMES;;
+        [3]*) ABOUT;;
 
         [0]*)  echo "Retour au menu précédent" ; exit 0 ;;
         *)      echo "Choisissez une option affichée dans le menu:" ;;
